@@ -1,0 +1,12 @@
+
+
+  <input type="hidden" id="productId" name="productId" value="{{productid}}">
+  <input type="hidden" id="variantId" name="variantId" value="{{variant.id}}">
+  <input type="hidden" id="size" name="size" value="{{size}}">
+
+<select class="" style="display: inline-block !important;" onchange="this.form.submit();">
+  <option value="1">Select Color</option>
+  {% for item in variantscol %}
+  <option value="{{item.color.id}}">{{item.color}}</option>
+  {% endfor %}
+  </select>

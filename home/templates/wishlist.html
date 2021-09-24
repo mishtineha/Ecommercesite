@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="ps-content pt-80 pb-80">
+  <div class="ps-container">
+    <div class="ps-cart-listing ps-table--whishlist">
+      {% if wish %}
+      <table class="table ps-cart__table">
+        <thead>
+          <tr>
+            <th>All Products</th>
+            <th>Price</th>
+            <th>View</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in wish %}
+          <tr>
+            <td style="width: max-content;" ><a class="ps-product__preview" href="{% url 'home:product' item.wished_item.slug %}"><img class="mr-15 ps-shoe__variant" style="height:150px;" src="{{ item.wished_item.productimages.first.image1.url }}" alt="{{ item.wished_item.ProductName }}"> {{ item.wished_item.ProductName }}</a></td>
+            <td>  {% if item.wished_item.discount_percent == 0 %}
+              ₹{{item.wished_item.price}}
+              {% else %}
+              <del>₹{{item.wished_item.price}}</del> ₹{{item.wished_item.discount_price}}
+              {% endif %}</td>
+            <td><a class="ps-product-link" href="{% url 'home:product' item.wished_item.slug %}">View Product</a></td>
+            <td>
+              <a href="{% url 'shop:wishlists' item.wished_item.id %}"><div class="ps-remove"></div></a>
+            </td>
+          </tr>
+          {% endfor %}
+          <!-- <tr>
+            <td><a class="ps-product__preview" href="product-detail.html"><img class="mr-15" src="images/product/cart-preview/2.jpg" alt=""> The Crusty Croissant</a></td>
+            <td>$150</td>
+            <td><a class="ps-product-link" href="product-detail.html">View Product</a></td>
+            <td>
+              <div class="ps-remove"></div>
+            </td>
+          </tr>
+          <tr>
+            <td><a class="ps-product__preview" href="product-detail.html"><img class="mr-15" src="images/product/cart-preview/3.jpg" alt="">The Rolling Pin</a></td>
+            <td>$150</td>
+            <td><a class="ps-product-link" href="product-detail.html">View Product</a></td>
+            <td>
+              <div class="ps-remove"></div>
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+      {% else %}
+      <img src="{% static 'img/wishlist.jpg' %}" alt="">
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

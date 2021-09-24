@@ -1,0 +1,178 @@
+{% load static %}
+<header class="header">
+  <div class="header__top">
+    <div class="container-fluid">
+      <div class="row">
+            <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12 ">
+              <p>Greater Noida, Uttar Pradesh, India  -  Hotline: +91 99273 00827</p>
+            </div>
+            <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+              <div class="header__actions">
+                {% if request.user.is_authenticated %}
+                <div class="btn-group ps-dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ profile.name }}<i class="fa fa-angle-down"></i></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/logout">Logout</a></li>
+                    <!-- <li><a href="#"><img src="{% static 'images/flag/singapore.svg' %}" alt=""> SGD</a></li>
+                    <li><a href="#"><img src="{% static 'images/flag/japan.svg' %}" alt=""> JPN</a></li> -->
+                  </ul>
+                </div>
+                {% else %}
+                <a href="{% url 'account:signin' %}">Login & Regiser</a>
+                {% endif %}
+                <!-- <div class="btn-group ps-dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language<i class="fa fa-angle-down"></i></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">English</a></li>
+                    <li><a href="#">Japanese</a></li>
+                    <li><a href="#">Chinese</a></li>
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  <nav class="navigation" style="border-bottom: 1px solid #eee;">
+    <div class="container-fluid">
+      <div class="navigation__column left">
+        <div class="header__logo"><a class="ps-logo" href="{% url 'home:index' %}">
+          <img src="{% static 'img/Logo.png' %}" alt=""></a></div>
+      </div>
+      <div class="navigation__column center">
+            <ul class="main-menu menu">
+              <!-- <li class="menu-item menu-item-has-children dropdown"><a href="{% url 'home:index' %}">Home</a>
+
+              </li> -->
+              {% for item in Category %}
+              {% if forloop.counter <= 4 %}
+              {% if item.active %}
+              <li class="menu-item"><a href="{% url 'home:category' item.slug %}" > {{item}}</a>
+              </li>
+              {% else %}
+              <li class="menu-item"><a  >{{item}}</a>
+              </li>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+{% comment %}
+{% if item.parent.exists %}
+{% endif %}
+                <!-- <div class="mega-menu">
+                  <div class="mega-wrap">
+                    {% for items in category1 %}
+                    {% if item.id == items.parent.id %}
+                    <div class="mega-column">
+                    {% if items.SubcatName.all %}
+
+                      <h4 class="mega-heading">{{items}}</h4>
+
+                      <ul class="mega-item">
+                        {% for i in items.SubcatName.all %}
+                        <li><a href="/category?Sub_category={{i}}">{{i}}</a></li>
+
+                        {% endfor %}
+
+                      </ul>
+                      {% endif %}
+                    </div>
+
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                </div> -->
+{% endcomment %}
+
+
+
+
+              <!-- <li class="menu-item"><a href="">All Categories</a></li> -->
+              <li class="menu-item menu-item-has-children dropdown"><a href="">Info</a>
+                    <ul class="sub-menu">
+                      <li class="menu-item"><a href="{% url 'home:contactus' %}">Contact Us</a>
+
+                      <li class="menu-item"><a href="">About Us</a></li>
+                      <li class="menu-item"><a href="">FAQs</a></li>
+                      </ul>
+                      </li>
+
+              <!-- <li class="menu-item menu-item-has-children dropdown"><a href="{% url 'home:contactus' %}">Contact</a>
+
+              </li> -->
+            </ul>
+      </div>
+      <div class="navigation__column right">
+        {% for item in Category %}
+        {% if item.active %}
+        <form class="ps-search--header" action="{% url 'home:category' item.slug %}" method="get">
+            {% else %}
+            <form class="ps-search--header" action="{% url 'home:contactus' %}" method="get">
+
+              {% endif %}
+              {% endfor %}
+
+          <input class="form-control" type="text" name ="q" placeholder="Search Product…">
+          <button><i class="ps-icon-search"></i></button>
+        </form>
+        <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>{% if order.get_cart_items %}{{ order.get_cart_items }} {% else %} 0 {% endif %}</i></span><i class="ps-icon-shopping-cart"></i></a>
+          <div class="ps-cart__listing">
+            <div class="ps-cart__content">
+              {% for item in order.OrderItem.all %}
+              <div class="ps-cart-item"><a class="ps-cart-item__close" href="{% url 'home:deletefromcart' item.id %}"></a>
+                <div class="ps-cart-item__thumbnail"><a href=""></a>
+                  {% if item.variant %}
+
+                  <img src="{{ item.variant.image_id.image1.url }}" alt="{{ item.variant.title }}">
+                  {% else %}
+                  <img src="{{ item.product.productimages.first.image1.url }}" alt="{{ item.product.ProductName }}">
+
+                  {% endif %}
+
+                </div>
+                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="">
+                  {% if item.variant %}
+                  {{ item.variant.title }}
+                  {% else %}
+                  {{ item.product.ProductName }}
+
+                  {% endif %}
+                </a>
+
+                  <p><span>Quantity:<i>{{ item.quantity }}</i></span>
+                    {% if item.variant %}
+                    <span>Total:<i>₹ {{ item.get_vari_total }}</i></span>
+                    {% else %}
+                    <span>Total:<i>₹ {{ item.get_prod_total }}</i></span>
+
+                    {% endif %}
+
+                  </p>
+                </div>
+              </div>
+              {% endfor %}
+              <!-- <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
+                <div class="ps-cart-item__thumbnail"><a href=""></a><img src="{% static 'images/cart-preview/2.jpg' %}" alt=""></div>
+                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="">The Crusty Croissant</a>
+                  <p><span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span></p>
+                </div>
+              </div>
+              <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
+                <div class="ps-cart-item__thumbnail"><a href=""></a><img src="{% static 'images/cart-preview/3.jpg' %}" alt=""></div>
+                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="">The Rolling Pin</a>
+                  <p><span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span></p>
+                </div>
+              </div> -->
+            </div>
+            <div class="ps-cart__total">
+              <p>Number of items:<span>{{ order.get_cart_items }}</span></p>
+              <p>Shipping Charges:<span>{{ order.get_ship_total }}</span></p>
+
+              <p>Item Total:<span>₹ {{ order.get_cart_ship_total }}</span></p>
+            </div>
+            <div class="ps-cart__footer"><a class="ps-btn" href="{% url 'home:cart' %}">Cart<i class="ps-icon-arrow-left"></i></a></div>
+          </div>
+        </div>
+        <div class="menu-toggle"><span></span></div>
+      </div>
+    </div>
+  </nav>
+
+</header>

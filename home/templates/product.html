@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <main class="ps-main">
+      <div class="test">
+        <div class="container">
+          <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+                </div>
+          </div>
+        </div>
+      </div>
+      <div class="ps-product--detail pt-40">
+        <div class="ps-container">
+          <div class="row">
+            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+              <div class="ps-product__thumbnail">
+                <div class="ps-product__preview">
+                  <div class="ps-product__variants">
+                    {% for image in product.productimages.all %}
+                    <div class="item"><img src="{{ image.image.url }}" alt=""></div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="ps-product__image">
+                  {% for image in product.productimages.all %}
+                    <div class="item"><img class="zoom"  src="{{ image.image.url }}"  alt="" data-zoom-image="{{ image.image.url }}"></div>
+                    {% endfor %}
+                </div>
+              </div>
+              <div class="ps-product__thumbnail--mobile">
+                <div class="ps-product__main-img"><img src="{{ product.productimages.first.image.url }}" alt=""></div>
+                <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false"  data-owl-item="4" data-owl-item-xs="4" data-owl-item-sm="4" data-owl-item-md="4" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                  {% for image in product.productimages.all %}
+                    <div><img class="zoom"  src="{{ image.image.url }}"  alt=""></div>
+                    {% endfor %}
+                </div>
+              </div>
+
+              <div class="ps-product__info">
+                <div class="ps-product__rating">
+                  <select class="ps-rating">
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                    <option value="1">4</option>
+                    <option value="2">5</option>
+                  </select><a href="#">(Read all 8 reviews)</a>
+                </div>
+                <h1>{{product.ProductName}}</h1>
+                <!-- <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p> -->
+                <!-- <h3 class="ps-product__price">£ 115 <del>£ 330</del></h3> -->
+                {% if product.discount_percent == 0 %}
+                <h3 class="ps-product__price">₹{{product.discount_price}}</h3>
+
+                                  {% else %}
+                                  <h3 class="ps-product__price">₹{{product.discount_price}} <del>₹{{product.price}}</del></h3>
+
+                                  {% endif %}
+
+
+
+                <div class="ps-product__block ps-product__quickview">
+                  <h4>QUICK REVIEW</h4>
+                  <p>{{product.short_description | safe }}</p>
+                </div>
+                  <br>
+                  <div class="ps-product__block ps-product__size">
+                   {% if in_bag == True %}
+                    <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{% url 'shop:cart' %}" type="Submit">Go to cart<i class="ps-icon-next"></i></a>
+                  <div class="ps-product__actions">
+                    {% if user.is_authenticated %}
+                    {% if wish == True %}
+                    <a class="mr-10" style="color:#F4CB79;background:#F4CB79;" href="{% url 'shop:wishlists' product.id %}"><i class="ps-icon-heart"></i></a>
+                    {% else %}
+                    <a class="mr-10"  href="{% url 'shop:wishlists' product.id %}"><i class="ps-icon-heart"></i></a>
+                    {% endif %}
+                      {% endif %}
+
+                    <!-- <a href="compare.html"><i class="ps-icon-share"></i></a> -->
+                    <a href="https://www.facebook.com/sharer.php?u={{request.build_absolute_uri}}" class="social-icon" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+
+                    <a href="https://api.whatsapp.com/send?text={{request.build_absolute_uri}}" data-action="share/whatsapp/share"  title="Share on whatsapp" class="social-icon" title="whatsapp" target="_blank"><i class="fa fa-whatsapp"></i></a>
+
+                    <!-- <a href="https://twitter.com/share?url={{request.build_absolute_uri}}" class="social-icon" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a> -->
+                    <!-- <a href="https://instagram.com/api/v1/media/upload/{{request.build_absolute_uri}}" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a> -->
+                    <!-- <a href="http://pinterest.com/pin/create/button/?url={{request.build_absolute_uri}}" class="social-icon" title="Pinterest" target="_blank"><i class="fa fa-pinterest"></i></a> -->
+                    <!-- <a href="fb-messenger://share/?link={{request.build_absolute_uri}}">Send In Messenger</a> -->
+
+
+
+
+
+
+                </div>
+
+                </div>
+                    {% else %}
+                  <form class="" action="{% url 'shop:addtocart' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="productval" value="{{product.id}}">
+
+                  <div class="form-group">
+
+                    <input class="form-control" type="number" name="quant" value="1">
+                  </div>
+                <div class="ps-product__shopping"><button class="ps-btn mb-10" type="Submit" >Add to cart<i class="ps-icon-next"></i></button>
+                  <div class="ps-product__actions">
+                    {% if user.is_authenticated %}
+                    {% if wish == True %}
+                    <a class="mr-10" style="color:#F4CB79;background:#F4CB79;" href="{% url 'shop:wishlists' product.id %}"><i class="ps-icon-heart"></i></a>
+                    {% else %}
+                    <a class="mr-10"  href="{% url 'shop:wishlists' product.id %}"><i class="ps-icon-heart"></i></a>
+                    {% endif %}
+                      {% endif %}
+
+                    <!-- <a href="compare.html"><i class="ps-icon-share"></i></a> -->
+                    <a href="https://www.facebook.com/sharer.php?u={{request.build_absolute_uri}}" class="social-icon" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+
+                    <a href="https://api.whatsapp.com/send?text={{request.build_absolute_uri}}" data-action="share/whatsapp/share"  title="Share on whatsapp" class="social-icon" title="whatsapp" target="_blank"><i class="fa fa-whatsapp"></i></a>
+
+                    <!-- <a href="https://twitter.com/share?url={{request.build_absolute_uri}}" class="social-icon" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a> -->
+                    <!-- <a href="https://instagram.com/api/v1/media/upload/{{request.build_absolute_uri}}" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a> -->
+                    <!-- <a href="http://pinterest.com/pin/create/button/?url={{request.build_absolute_uri}}" class="social-icon" title="Pinterest" target="_blank"><i class="fa fa-pinterest"></i></a> -->
+                    <!-- <a href="fb-messenger://share/?link={{request.build_absolute_uri}}">Send In Messenger</a> -->
+
+
+
+
+
+
+                </div>
+
+                </div>
+              </form>
+
+                    {% endif %}
+            </div>
+            </div>
+
+
+              <div class="clearfix"></div>
+              <div class="ps-product__content mt-50">
+                <ul class="tab-list" role="tablist">
+                  <li class="active"><a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a></li>
+                  <li><a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">Review</a></li>
+                  <!-- <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">PRODUCT TAG</a></li> -->
+                  <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">ADDITIONAL</a></li>
+                </ul>
+              </div>
+              <div class="tab-content mb-60">
+                <div class="tab-pane active" role="tabpanel" id="tab_01">
+                  <p>{{ product.description|safe }}</p>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab_02">
+                  <p class="mb-20">1 review for <strong>Shoes Air Jordan</strong></p>
+                  <div class="ps-review">
+                    <div class="ps-review__thumbnail"><img src="{% static 'images/user/1.jpg' %}" alt=""></div>
+                    <div class="ps-review__content">
+                      <header>
+                        <select class="ps-rating">
+                          <option value="1">1</option>
+                          <option value="1">2</option>
+                          <option value="1">3</option>
+                          <option value="1">4</option>
+                          <option value="5">5</option>
+                        </select>
+                        <p>By<a href=""> Alena Studio</a> - November 25, 2017</p>
+                      </header>
+                      <p>Soufflé danish gummi bears tart. Pie wafer icing. Gummies jelly beans powder. Chocolate bar pudding macaroon candy canes chocolate apple pie chocolate cake. Sweet caramels sesame snaps halvah bear claw wafer. Sweet roll soufflé muffin topping muffin brownie. Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
+                    </div>
+                  </div>
+                  <form class="ps-product__review" action="_action" method="post">
+                    <h4>ADD YOUR REVIEW</h4>
+                    <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                            <div class="form-group">
+                              <label>Name:<span>*</span></label>
+                              <input class="form-control" type="text" placeholder="">
+                            </div>
+                            <div class="form-group">
+                              <label>Email:<span>*</span></label>
+                              <input class="form-control" type="email" placeholder="">
+                            </div>
+                            <div class="form-group">
+                              <label>Your rating<span></span></label>
+                              <select class="ps-rating">
+                                <option value="1">1</option>
+                                <option value="1">2</option>
+                                <option value="1">3</option>
+                                <option value="1">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 ">
+                            <div class="form-group">
+                              <label>Your Review:</label>
+                              <textarea class="form-control" rows="6"></textarea>
+                            </div>
+                            <div class="form-group">
+                              <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>
+                            </div>
+                          </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab_03">
+                  {{product.additional_info | safe }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-80">
+        <div class="ps-container">
+          <div class="ps-section__header mb-50">
+            <div class="row">
+                  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+                    <h3 class="ps-section__title" data-mask="Related item">- YOU MIGHT ALSO LIKE</h3>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                    <div class="ps-owl-actions"><a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a></div>
+                  </div>
+            </div>
+          </div>
+          <div class="ps-section__content">
+            <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+              {% for product in similar_product %}
+               <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail">
+                      {% if product.similar_prod.discount_percent == 0 %}
+                      {% else %}
+                      <div class="ps-badge ps-badge--sale"><span>-{{product.similar_prod.discount_percent}}%</span></div>
+                      {% endif %}
+                      {% if user.is_authenticated %}
+                      {% if product.similar_prod.id in wish %}
+
+                      <a class="ps-shoe__favorite " style="color:#F4CB79;background:#F4CB79;" href="{% url 'shop:wishlists' product.similar_prod.id %}">
+                        <i class="ps-icon-heart"></i></a>
+                        {% else %}
+                        <a class="ps-shoe__favorite" href="{% url 'shop:wishlists' product.similar_prod.id %}">
+                          <i class="ps-icon-heart"></i></a>
+                        {% endif %}
+                          {% endif %}
+                      <img src="{{ product.similar_prod.productimages.first.image.url }}" alt="">
+                      <a class="ps-shoe__overlay"  href="{% url 'home:product' product.similar_prod.slug %}">
+                          </a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal">
+                        {% for image in product.similar_prod.productimages.all %}
+                        <img src="{{ image.image.url }}" alt="{{product.similar_prod.ProductName}}">
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{% url 'home:product' product.similar_prod.slug %}">{{product.similar_prod.ProductName}}</a><br>
+                      <span class="ps-shoe__price">
+                        {% if product.similar_prod.discount_percent == 0 %}
+                        ₹{{product.similar_prod.price}}
+                        {% else %}
+                        <del>₹{{product.similar_prod.product.price}}</del> ₹{{product.similar_prod.discount_price}}</span>
+                        {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+        {% endblock %}
+        {% block Querycontent %}
+        <script>
+        $(document).on('change', '#size-change',function(e){
+           console.log("productid",$('#productId').val())
+           console.log("size",$('#size').val())
+
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url:'{% url "home:ajaxsize" %}',
+                data:{
+                    product:$('#productId').val(),
+                    size:$('#size').val(),
+
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'post'
+                },
+                data_type : 'html',
+                success: function (data) {
+                    console.log("success",data);
+                    $('#appendcolor').html(data.rendered_table);
+                },
+                error: function (data) {
+                    console.log("Got an error dude " + data);
+                }
+            });
+        });
+        </script>
+          {% endblock %}

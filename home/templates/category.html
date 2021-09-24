@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <main class="ps-main">
+      <div class="ps-products-wrap pt-40 pb-80">
+        <div class="ps-products" data-mh="product-listing">
+          <div class="ps-product__columns">
+            {% if Product %}
+            {% for item in Product %}
+            <div class="ps-product__column">
+              <div class="ps-shoe mb-30">
+                <div class="ps-shoe__thumbnail">
+                  <!-- <div class="ps-badge"><span>New</span></div> -->
+                  {% if item.discount_percent == 0 %}
+                  {% else %}
+                  <div class="ps-badge ps-badge--sale"><span>-{{item.discount_percent}}%</span></div>
+                  {% endif %}
+                  {% if user.is_authenticated %}
+
+                  {% if item.id in wish %}
+
+                  <a class="ps-shoe__favorite " style="color:#F4CB79;background:#F4CB79;" href="{% url 'shop:wishlists' item.id %}">
+                    <i class="ps-icon-heart"></i></a>
+                    {% else %}
+                    <a class="ps-shoe__favorite" href="{% url 'shop:wishlists' item.id %}">
+                      <i class="ps-icon-heart"></i></a>
+                    {% endif %}
+                      {% endif %}
+                  <img src="{{ item.productimages.first.image.url }}" alt="{{item.ProductName}}">
+                  <a class="ps-shoe__overlay" href="{% url 'home:product' item.slug %}"></a>
+                </div>
+                <div class="ps-shoe__content">
+                  <div class="ps-shoe__variants">
+                    <div class="ps-shoe__variant normal"><img src="{{ item.productimages.first.image.url }}" alt="{{item.ProductName}}">
+                      {% for image in item.productimages.all %}
+                      <img src="{{ image.image.url }}" alt="{{item.ProductName}}">
+                      {% endfor %}
+                     </div>
+
+                  </div>
+                  <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{% url 'home:product' item.slug %}">{{item.ProductName}}</a>
+                    <!-- <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p> -->
+                    <span class="ps-shoe__price">
+                      {% if item.discount_percent == 0 %}
+                      ₹{{item.price}}
+                      {% else %}
+                      <del>₹{{item.price}}</del> ₹{{item.discount_price}}</span>
+                      {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+
+                        <center>    <img src="{% static 'img/no_result.jpeg' %}" alt="No result Found" class="ml-auto mr-auto img img-fluid " width="50%"  > </center>
+                            {% endif %}
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <script type="text/javascript">
+
+
+
+
+
+  function resetAll(){
+
+      var newURL = location.href.split("?")[0];
+      window.history.pushState('object', document.title, newURL);
+      window.location.reload()
+      $(':checkbox').prop('checked', false);
+  }
+
+
+
+</script>
+    </main>
+      {% endblock %}

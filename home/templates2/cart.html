@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+  .table>tbody>tr>td, .table>tfoot>tr>td{
+    vertical-align: middle;
+}
+@media screen and (max-width: 600px) {
+    table#cart tbody td .form-control{
+		width:20%;
+		display: inline !important;
+	}
+	.actions .btn{
+		width:36%;
+		margin:1.5em 0;
+	}
+
+	.actions .btn-info{
+		float:left;
+	}
+	.actions .btn-danger{
+		float:right;
+	}
+
+	table#cart thead { display: none; }
+	table#cart tbody td { display: block; padding: .6rem; min-width:320px;}
+	table#cart tbody tr td:first-child { background: #333; color: #fff; }
+	table#cart tbody td:before {
+		content: attr(data-th); font-weight: bold;
+		display: inline-block; width: 8rem;
+	}
+
+
+
+	table#cart tfoot td{display:block; }
+	table#cart tfoot td .btn{display:block;}
+
+}
+  </style>
+<main class="ps-main">
+<div class="container mt-4 pt-4">
+	<table id="cart" class="table table-hover table-condensed">
+    				<thead>
+						<tr>
+							<th style="width:50%">Product</th>
+							<th style="width:10%">Price</th>
+							<th style="width:8%">Quantity</th>
+							<th style="width:22%" class="text-center">Subtotal</th>
+							<th style="width:10%"></th>
+						</tr>
+					</thead>
+          {% for item in order.OrderItem.all %}
+					<tbody>
+						<tr>
+							<td data-th="Product">
+								<div class="row">
+									<div class="col-sm-2 hidden-xs">
+                      {% if item.variant %}
+                    <img src="{{ item.variant.image_id.image1.url }}" alt="{{ item.variant.title }}" class="img-responsive"/>
+                    {% else %}
+                    <img src="{{ item.product.productimages.first.image1.url }}" alt="{{ item.product.ProductName }}" class="img-responsive"/>
+                    {% endif %}
+                  </div>
+									<div class="col-sm-10">
+										<h4 class="nomargin">  {% if item.variant %}
+                      {{ item.variant.title }}
+                      {% else %}
+                      {{ item.product.ProductName }}
+
+                      {% endif %}</h4>
+										<!-- <p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p> -->
+									</div>
+								</div>
+							</td>
+							<td data-th="Price">{% if item.variant %}
+              <span><i>₹ {{ item.variant.price }}</i></span>
+              {% else %}
+              <span><i>₹ {{ item.product.price }}</i></span>
+
+              {% endif %}</td>
+							<td data-th="Quantity">
+								<input type="number" class="form-control text-center" value="{{item.quantity}}" disabled>
+							</td>
+							<td data-th="Subtotal" class="text-center">{% if item.variant %}
+              <span><i>₹ {{ item.get_vari_total }}</i></span>
+              {% else %}
+              <span><i>₹ {{ item.get_prod_total }}</i></span>
+
+              {% endif %}</td>
+							<td class="actions" data-th="">
+								<!-- <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button> -->
+								<a href="{% url 'home:deletefromcart' item.id %}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
+							</td>
+						</tr>
+            {% endfor %}
+					</tbody>
+					<tfoot>
+						<tr class="visible-xs">
+							<td class="text-center"><strong>Total ₹{{ order.get_total }}</strong></td>
+						</tr>
+						<tr>
+							<td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+							<td colspan="2" class="hidden-xs"></td>
+							<td class="hidden-xs text-center"><strong></strong></td>
+							<td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+						</tr>
+					</tfoot>
+				</table>
+</div>
+</main>
+        {% endblock %}

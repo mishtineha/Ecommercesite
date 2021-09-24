@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- <div class="header-services">
+      <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+      </div>
+    </div> -->
+    <main class="ps-main">
+      <div class="ps-section--offer owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="2000" data-owl-nav="false" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-mousedrag="on">
+        {% for banner in first_banners %}
+        {% if banner.image %}
+        {% if banner.image.url|slice:"-3:" == "mp4" or banner.image.url|slice:"-3:" == "MP4" %}
+        <div class="ps-column">
+          <a href="{{ banner.redirect_url }}">
+          <video autoplay muted loop class="rev-slidebg"  style="width:inherit;" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" data-no-retina>
+                                <source media="(max-width: 480px)" src="{{ banner.image.url }}" type="video/mp4">
+
+                              </video>
+                              </a></div>
+
+        {% else %}
+        <div class="ps-column"><a class="ps-offer" href="{{ banner.redirect_url }}"><img class="rev-slidebg" src="{{ banner.image.url }}" alt="Banner Image"> </a></div>
+          {% endif %}
+
+          {% else %}
+          <div class="ps-column"><img src="{% static 'images/banner/home-banner-1.png' %}" alt=""></div>
+            {% endif %}
+        {% endfor %}
+        </div>
+      {% comment %}
+      <div class="ps-banner">
+        <div class="rev_slider fullscreenbanner" id="home-banner">
+          <ul>
+            {% for banner in first_widget.banner_set.all %}
+            {% if banner.image %}
+            {% if banner.image.url|slice:"-3:" == "mp4" or banner.image.url|slice:"-3:" == "MP4" %}
+            <li class="ps-banner" data-index="rs-2972" data-transition="random" data-slotamount="default" data-hideafterloop="1" data-hideslideonmobile="off" data-rotate="0">
+              <a href="{{ banner.redirect_url }}">
+              <video autoplay muted loop class="rev-slidebg"  style="width:inherit;" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" data-no-retina>
+                                    <source media="(max-width: 480px)" src="{{ banner.image.url }}" type="video/mp4">
+
+                                  </video>
+              </a>
+
+            {% else %}
+            <li class="ps-banner" data-index="rs-2972" data-transition="random" data-slotamount="default" data-hideafterloop="1" data-hideslideonmobile="off" data-rotate="0">
+             <a href="{{ banner.redirect_url }}">
+            <img class="rev-slidebg" src="{{ banner.image.url }}" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" data-no-retina>
+              {% endif %}
+             </a>
+
+              {% else %}
+              <li class="ps-banner" data-index="rs-2972" data-transition="random" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-rotate="0"><img class="rev-slidebg" src="{% static 'images/slider/2.jpg' %}" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" data-no-retina>
+                {% endif %}
+
+            {% endfor %}
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+      <div class="ps-section--features-product ps-section masonry-root">
+        <div class="ps-container">
+          <div class="ps-section__header mb-50">
+            <h3 class="ps-section__title" data-mask="features">- Features Products</h3>
+          </div>
+          <div class="ps-section__content pb-50">
+            <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
+              <div class="ps-masonry" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                {% for item in feature %}
+                <div class="grid-item">
+                  <div class="grid-item__content-wrapper">
+                    <div class="ps-shoe mb-30">
+                      <div class="ps-shoe__thumbnail">
+                        <!-- <div class="ps-badge"><span>New</span></div> -->
+                        {% if item.product.discount_percent == 0 %}
+                        {% else %}
+                        <div class="ps-badge ps-badge--sale"><span>-{{item.product.discount_percent}}%</span></div>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        {% if item.product.id in wish %}
+
+                        <a class="ps-shoe__favorite " style="color:#F4CB79;background:#F4CB79;" href="{% url 'shop:wishlists' item.id %}">
+                          <i class="ps-icon-heart"></i></a>
+                          {% else %}
+                          <a class="ps-shoe__favorite" href="{% url 'shop:wishlists' item.id %}">
+                            <i class="ps-icon-heart"></i></a>
+                          {% endif %}
+                            {% endif %}
+                          <img src="{{ item.product.productimages.first.image1.url }}" alt="">
+                          <a class="ps-shoe__overlay" href="{% url 'home:product' item.product.slug %}"></a>
+                      </div>
+                      <div class="ps-shoe__content">
+                        <div class="ps-shoe__variants">
+                          <div class="ps-shoe__variant normal">
+                            <img src="{{ item.product.productimages.first.image1.url }}" alt="{{item.product.ProductName}}">
+                            <img src="{{ item.product.productimages.first.image2.url }}" alt="{{item.product.ProductName}}">
+                            <img src="{{ item.product.productimages.first.image3.url }}" alt="{{item.product.ProductName}}">
+                            <img src="{{ item.product.productimages.first.image4.url }}" alt="{{item.product.ProductName}}"></div>
+                        </div>
+                        <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{% url 'home:product' item.product.slug %}">{{item.product.ProductName}}</a><br>
+
+                          <span class="ps-shoe__price">
+                            {% if item.product.discount_percent == 0 %}
+                            ₹{{item.product.price}}
+                            {% else %}
+                            <del>₹{{item.product.price}}</del> ₹{{item.product.discount_price}}x
+                            {% endif %}
+                            </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endcomment %}
+       <div class="ps-section ps-section--features-product ps-owl-root">
+        <div class="ps-container">
+          <div class="ps-section__header mb-50">
+            <div class="row">
+                  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+                    <h3 class="ps-section__title" data-mask="BEST SALE">Feature Products</h3>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                    <div class="ps-owl-actions"><a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a></div>
+                  </div>
+            </div>
+          </div>
+          <div class="ps-section__content">
+            <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+
+              {% for item in feature %}
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail">
+                      {% if item.product.discount_percent == 0 %}
+                      {% else %}
+                      <div class="ps-badge ps-badge--sale"><span>-{{item.product.discount_percent}}%</span></div>
+                      {% endif %}
+                      {% if user.is_authenticated %}
+                      {% if item.product.id in wish %}
+
+                      <a class="ps-shoe__favorite " style="color:#F4CB79;background:#F4CB79;" href="{% url 'shop:wishlists' item.id %}">
+                        <i class="ps-icon-heart"></i></a>
+                        {% else %}
+                        <a class="ps-shoe__favorite" href="{% url 'shop:wishlists' item.id %}">
+                          <i class="ps-icon-heart"></i></a>
+                        {% endif %}
+                          {% endif %}
+                      <img src="{{ item.product.productimages.first.image.url }}" alt="">
+                      <a class="ps-shoe__overlay"  href="{% url 'home:product' item.product.slug %}">
+                          </a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal">
+                        {% for image in item.product.productimages.all %}
+                        <img src="{{ image.image.url }}" alt="{{item.product.ProductName}}">
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{% url 'home:product' item.product.slug %}">{{item.product.ProductName}}</a><br>
+                      <span class="ps-shoe__price">
+                        {% if item.product.discount_percent == 0 %}
+                        ₹{{item.product.price}}
+                        {% else %}
+                        <del>₹{{item.product.price}}</del> ₹{{item.product.discount_price}}</span>
+                        {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ps-section--offer owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-nav="false" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-mousedrag="on">
+        {% for banner in second_banners %}
+        {% if banner.image %}
+        {% if banner.image.url|slice:"-3:" == "mp4" or banner.image.url|slice:"-3:" == "MP4" %}
+        <div class="ps-column">
+          <a href="{{ banner.redirect_url }}">
+          <video autoplay muted loop class="rev-slidebg"  style="width:inherit;" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" data-no-retina>
+                                <source media="(max-width: 480px)" src="{{ banner.image.url }}" type="video/mp4">
+
+                              </video>
+                              </a></div>
+
+        {% else %}
+        <div class="ps-column"><a class="ps-offer" href="{{ banner.redirect_url }}"><img class="rev-slidebg" src="{{ banner.image.url }}" alt="Banner Image"> </a></div>
+          {% endif %}
+
+          {% else %}
+          <div class="ps-column"><img src="{% static 'images/banner/home-banner-1.png' %}" alt=""></div>
+            {% endif %}
+        {% endfor %}
+        </div>
+
+
+      <div class="ps-section ps-section--top-sales ps-owl-root">
+        <div class="ps-container">
+          <div class="ps-section__header mb-50">
+            <div class="row">
+                  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+                    <h3 class="ps-section__title" data-mask="BEST SALE">- Top Sales</h3>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                    <div class="ps-owl-actions"><a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a></div>
+                  </div>
+            </div>
+          </div>
+          <div class="ps-section__content">
+            <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+
+              {% comment %}
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      {% if item.product.discount_percent == 0 %}
+                      {% else %}
+                      <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-{{item.product.discount_percent}}%</span></div>
+                      {% endif %}
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                      <p class="ps-shoe__categories">
+                        <a href="#">Men shoes</a>,<a href="#"> Nike</a>,
+                        <a href="#"> Jordan</a>
+                      </p><span class="ps-shoe__price"> £ 120</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endcomment %}
+
+
+
+                {% for item in feature %}
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail">
+                      {% if item.product.discount_percent == 0 %}
+                      {% else %}
+                      <div class="ps-badge ps-badge--sale"><span>-{{item.product.discount_percent}}%</span></div>
+                      {% endif %}
+                      {% if user.is_authenticated %}
+                      {% if item.product.id in wish %}
+
+                      <a class="ps-shoe__favorite " style="color:#F4CB79;background:#F4CB79;" href="{% url 'shop:wishlists' item.id %}">
+                        <i class="ps-icon-heart"></i></a>
+                        {% else %}
+                        <a class="ps-shoe__favorite" href="{% url 'shop:wishlists' item.id %}">
+                          <i class="ps-icon-heart"></i></a>
+                        {% endif %}
+                          {% endif %}
+                      <img src="{{ item.product.productimages.first.image.url }}" alt="">
+                      <a class="ps-shoe__overlay" href="{% url 'home:product' item.product.slug %}">
+                          </a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal">
+                        {% for image in item.product.productimages.all %}
+                        <img src="{{ image.image.url }}" alt="{{item.product.ProductName}}">
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{% url 'home:product' item.product.slug %}">{{item.product.ProductName}}</a><br>
+                      <span class="ps-shoe__price">
+                        {% if item.product.discount_percent == 0 %}
+                        ₹{{item.product.price}}
+                        {% else %}
+                        <del>₹{{item.product.price}}</del> ₹{{item.product.discount_price}}</span>
+                        {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+      {% endblock %}

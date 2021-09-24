@@ -1,0 +1,692 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- <div class="header-services">
+      <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+      </div>
+    </div> -->
+    <main class="ps-main">
+      <div class="test">
+        <div class="container">
+          <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+                </div>
+          </div>
+        </div>
+      </div>
+      <div class="ps-product--detail pt-40">
+        <div class="ps-container">
+          <div class="row">
+            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+              <div class="ps-product__thumbnail">
+                <div class="ps-product__preview">
+                  <div class="ps-product__variants">
+                    {% if variant %}
+
+                    <div class="item"><img src="{{ variant.image_id.image1.url }}" alt=""></div>
+                    <div class="item"><img src="{{ variant.image_id.image2.url }}" alt=""></div>
+                    <div class="item"><img src="{{ variant.image_id.image3.url }}" alt=""></div>
+                    <div class="item"><img src="{{ variant.image_id.image4.url }}" alt=""></div>
+
+                    {% else %}
+                    <div class="item"><img src="{{ product.productimages.first.image1.url }}" alt=""></div>
+                    <div class="item"><img src="{{ product.productimages.first.image2.url }}" alt=""></div>
+                    <div class="item"><img src="{{ product.productimages.first.image3.url }}" alt=""></div>
+                    <div class="item"><img src="{{ product.productimages.first.image4.url }}" alt=""></div>
+                    {% endif %}
+                  </div>
+                  <!-- <a class="popup-youtube ps-product__video" href="http://www.youtube.com/watch?v=0O2aH4XLbto"><img src="{% static 'images/shoe-detai' %}l/1.jpg" alt=""><i class="fa fa-play"></i></a> -->
+                </div>
+                <div class="ps-product__image">
+                  {% if variant %}
+                  <div class="item"><img class="zoom" src="{{ variant.image_id.image1.url }}" alt="" data-zoom-image="{{ variant.image_id.image1.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ variant.image_id.image2.url }}" alt="" data-zoom-image="{{ variant.image_id.image2.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ variant.image_id.image3.url }}" alt="" data-zoom-image="{{ variant.image_id.image3.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ variant.image_id.image4.url }}" alt="" data-zoom-image="{{ variant.image_id.image4.url }}"></div>
+                  {% else %}
+                  <div class="item"><img class="zoom" src="{{ product.productimages.first.image1.url }}" alt="" data-zoom-image="{{ product.productimages.first.image1.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ product.productimages.first.image2.url }}" alt="" data-zoom-image="{{ product.productimages.first.image2.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ product.productimages.first.image3.url }}" alt="" data-zoom-image="{{ product.productimages.first.image3.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ product.productimages.first.image4.url }}" alt="" data-zoom-image="{{ product.productimages.first.image4.url }}"></div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="ps-product__thumbnail--mobile">
+                {% if variant %}
+                <div class="ps-product__main-img"><img src="{{ variant.image_id.image1.url }}" alt=""></div>
+                <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="4" data-owl-item-sm="4" data-owl-item-md="4" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                  <div><img src="{{ variant.image_id.image1.url }}" alt=""></div>
+                  <div><img src="{{ variant.image_id.image2.url }}" alt=""></div>
+                  <div><img src="{{ variant.image_id.image3.url }}" alt=""></div>
+                  <div><img src="{{ variant.image_id.image4.url }}" alt=""></div>
+                </div>
+                {% else %}
+                <div class="ps-product__main-img"><img src="{{ product.productimages.first.image1.url }}" alt=""></div>
+                <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false"  data-owl-item="4" data-owl-item-xs="4" data-owl-item-sm="4" data-owl-item-md="4" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                  <div><img src="{{ product.productimages.first.image1.url }}" alt=""></div>
+                  <div><img src="{{ product.productimages.first.image2.url }}" alt=""></div>
+                  <div><img src="{{ product.productimages.first.image3.url }}" alt=""></div>
+                  <div><img src="{{ product.productimages.first.image4.url }}" alt=""></div>
+                </div>
+
+                {% endif %}
+              </div>
+
+
+              {% if variant %}
+              <div class="ps-product__info">
+                <div class="ps-product__rating">
+
+                  <select class="ps-rating">
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                    <option value="1">4</option>
+                    <option value="2">5</option>
+                  </select><a href="#">(Read all 8 reviews)</a>
+                </div>
+                <h1>{{variant.title}}</h1>
+                <!-- <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p> -->
+                {% if variant.discount_percent == 0 %}
+                  <h3 class="ps-product__price">₹{{variant.discount_price}}</h3>
+
+                                    {% else %}
+                                    <h3 class="ps-product__price">₹{{variant.discount_price}} <del>₹{{variant.price}}</del></h3>
+                                    <!-- <div class="product-price">
+                                      <span class="new-price">₹{{variant.discount_price}} </span>
+                                       <del> <span class="old-price">₹{{variant.price}}</span></del>&nbsp; &nbsp;
+                                       <span class="new-price" style="font-size:12px;">{{variant.discount_percent}}% off</span>
+
+                                    </div> -->
+                                    {% endif %}
+                <!-- <h3 class="ps-product__price">£ 115 <del>£ 330</del></h3> -->
+
+                <div class="ps-product__block ps-product__quickview">
+                  <h4>QUICK REVIEW</h4>
+                  <p>{{variant.short_description | safe }}</p>
+                </div>
+                {% if variant.product.variant != 'None' %}
+                {% if variant.product.variant == 'Size-Color' %}
+                <div class="row">
+
+                <div class="col-md-6">
+                  <form method="POST" id="size-change">
+                    {% csrf_token %}
+                    <input type="hidden" name="variantId" value="{{ variant.id }}">
+                      <input type="hidden" id="productId" name="productId" value="{{ variant.product.id }}">
+                  <h4>CHOOSE SIZE</h4>
+                  <select class="" id="size" name="size" required>
+                    <option value="1">Select Size</option>
+                    {% for item in variantscol %}
+                    <option {% if variant.size.id == item.size.id %} selected {% endif %} value="{{item.size.id}}">{{item.size}}</option>
+                    {% endfor %}
+
+                  </select>
+                </form>
+                    </div>
+                    <div class="col-md-6">
+                      <form method="POST" id="color-change" >
+                        {% csrf_token %}
+                      <h4>CHOOSE COLOR</h4>
+                      <div id="appendcolor">
+                        <input type="hidden" id="productId" name="productId" required value="{{variant.product.id}}">
+
+                        <select class="" onchange="this.form.submit();">
+                          <option value="">Select Color</option>
+                          {% for item in variantscol %}
+                          {% if variant.size.id == item.size.id %}
+                          <option {% if variant.color.id == item.color.id %} selected {% endif %} value="{{item.color.id}}">{{item.color}}</option>
+                          {% endif %}
+                          {% endfor %}
+
+                        </select>
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+                    {% elif variant.product.variant == 'Size' %}
+
+                    <div class="">
+                      <form method="POST" id="color-change">
+                        {% csrf_token %}
+                        <input type="hidden" id="productId"  name="productId" value="{{variant.product.id}}">
+                      <h4>CHOOSE SIZE</h4>
+                      <select class="" name="variantId" required onchange="this.form.submit();">
+                        <option value="">Select Size</option>
+                        {% for item in variantscol %}
+                        <option {% if variant.id == item.id %} selected {% endif %} value="{{item.id}}" >{{item.size}}</option>
+                        {% endfor %}
+
+                      </select>
+                       </form>
+                        </div>
+
+                    {% else %}
+
+                    <div class="">
+                      <form method="POST" id="color-change">
+
+                        {% csrf_token %}
+
+                          <input type="hidden" id="productId" name="productId" value="{{ variant.product.id }}">
+                      <h4>CHOOSE COLOR</h4>
+                      <ul>
+                        <select class="" name="variantId" required onchange="this.form.submit();">
+                          <option value="">Select Color</option>
+                          {% for item in variantscol %}
+                          <option {% if variant.id == item.id %} selected {% endif %} value="{{item.id}}">{{item.color}}</option>
+                          {% endfor %}
+                        </select>
+                      </ul>
+                      </form>
+                    </div>
+
+
+                    {% endif %}
+                  {% endif %}
+
+                  <form class="" action="{% url 'home:addtocart' %}" method="POST">
+                    {% csrf_token %}
+                  <div class="form-group">
+                    <input type="hidden" name="productval" value="{{variant.product.id}}">
+                    <input type="hidden" name="varientval" value="{{variant.id}}">
+                    <input class="form-control" type="number" name="quant" value="1">
+                  </div>
+                <div class="ps-product__shopping"><button class="ps-btn mb-10" type="Submit" >Add to cart<i class="ps-icon-next"></i></button>
+                  <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
+                </div>
+              </form>
+            </div>
+              <!-- </div> -->
+
+              <div class="clearfix"></div>
+              <div class="ps-product__content mt-50">
+                <ul class="tab-list" role="tablist">
+                  <li class="active"><a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a></li>
+                  <li><a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">Review</a></li>
+                  <!-- <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">PRODUCT TAG</a></li> -->
+                  <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">ADDITIONAL</a></li>
+                </ul>
+              </div>
+              <div class="tab-content mb-60">
+                <div class="tab-pane active" role="tabpanel" id="tab_01">
+                  <p>{{variant.description | safe }}/p>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab_02">
+                  <p class="mb-20">1 review for <strong>Shoes Air Jordan</strong></p>
+                  <div class="ps-review">
+                    <div class="ps-review__thumbnail"><img src="{% static 'images/user/1.jpg' %}" alt=""></div>
+                    <div class="ps-review__content">
+                      <header>
+                        <select class="ps-rating">
+                          <option value="1">1</option>
+                          <option value="1">2</option>
+                          <option value="1">3</option>
+                          <option value="1">4</option>
+                          <option value="5">5</option>
+                        </select>
+                        <p>By<a href=""> Alena Studio</a> - November 25, 2017</p>
+                      </header>
+                      <p>Soufflé danish gummi bears tart. Pie wafer icing. Gummies jelly beans powder. Chocolate bar pudding macaroon candy canes chocolate apple pie chocolate cake. Sweet caramels sesame snaps halvah bear claw wafer. Sweet roll soufflé muffin topping muffin brownie. Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
+                    </div>
+                  </div>
+                  <form class="ps-product__review" action="_action" method="post">
+                    <h4>ADD YOUR REVIEW</h4>
+                    <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                            <div class="form-group">
+                              <label>Name:<span>*</span></label>
+                              <input class="form-control" type="text" placeholder="">
+                            </div>
+                            <div class="form-group">
+                              <label>Email:<span>*</span></label>
+                              <input class="form-control" type="email" placeholder="">
+                            </div>
+                            <div class="form-group">
+                              <label>Your rating<span></span></label>
+                              <select class="ps-rating">
+                                <option value="1">1</option>
+                                <option value="1">2</option>
+                                <option value="1">3</option>
+                                <option value="1">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 ">
+                            <div class="form-group">
+                              <label>Your Review:</label>
+                              <textarea class="form-control" rows="6"></textarea>
+                            </div>
+                            <div class="form-group">
+                              <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>
+                            </div>
+                          </div>
+                    </div>
+                  </form>
+                </div>
+                <!-- <div class="tab-pane" role="tabpanel" id="tab_03">
+                  <p>Add your tag <span> *</span></p>
+                  <form class="ps-product__tags" action="_action" method="post">
+                    <div class="form-group">
+                      <input class="form-control" type="text" placeholder="">
+                      <button class="ps-btn ps-btn--sm">Add Tags</button>
+                    </div>
+                  </form>
+                </div> -->
+                <div class="tab-pane" role="tabpanel" id="tab_03">
+                  <div class="form-group">
+                    {{variant.additional_info | safe }}
+                  </div>
+                  <!-- <div class="form-group">
+                    <button class="ps-btn" type="button">Submit</button>
+                  </div> -->
+                </div>
+              </div>
+
+              {% else %}
+
+              <div class="ps-product__info">
+                <div class="ps-product__rating">
+                  <select class="ps-rating">
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                    <option value="1">4</option>
+                    <option value="2">5</option>
+                  </select><a href="#">(Read all 8 reviews)</a>
+                </div>
+                <h1>{{product.ProductName}}</h1>
+                <!-- <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p> -->
+                <!-- <h3 class="ps-product__price">£ 115 <del>£ 330</del></h3> -->
+                {% if product.discount_percent == 0 %}
+                <h3 class="ps-product__price">₹{{product.discount_price}}</h3>
+
+                                  {% else %}
+                                  <h3 class="ps-product__price">₹{{product.discount_price}} <del>₹{{product.price}}</del></h3>
+
+                                  {% endif %}
+
+
+
+                <div class="ps-product__block ps-product__quickview">
+                  <h4>QUICK REVIEW</h4>
+                  <p>{{product.short_description | safe }}</p>
+                </div>
+                {% if product.variant != 'None' %}
+                {% if product.variant == 'Size-Color' %}
+                <div class="row">
+
+                <div class="col-md-6">
+                  <form method="POST" id="size-change">
+                    {% csrf_token %}
+                      <input type="hidden" id="productId" name="productId" value="{{ product.id }}" required>
+                  <h4>CHOOSE SIZE</h4>
+                  <select class="" id="size" name="size">
+                    <option value="">Select Size</option>
+                    {% for item in variantscol %}
+                    <option value="{{item.size.id}}">{{item.size}}</option>
+                    {% endfor %}
+
+                  </select>
+                </form>
+                    </div>
+                    <div class="col-md-6">
+                      <form method="POST" id="color-change" >
+                        {% csrf_token %}
+                      <h4>CHOOSE COLOR</h4>
+                      <div id="appendcolor">
+                        <input type="hidden" id="productId" name="productId" value="{{product.id}}">
+
+                        <select class="" onchange="this.form.submit();" required>
+                          <option value="">Select Color</option>
+                          <!-- {% for item in variantscol %}
+                          <option value="{{item.color.id}}">{{item.color}}</option>
+                          {% endfor %} -->
+
+                        </select>
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+                    {% elif product.variant == 'Size' %}
+
+                    <div class="">
+                      <form method="POST" id="color-change">
+                        {% csrf_token %}
+                        <input type="hidden" id="productId" name="productId" value="{{product.id}}">
+
+
+                      <h4>CHOOSE SIZE</h4>
+                      <select class="" name="variantId" required onchange="this.form.submit();">
+                        <option value="">Select Size</option>
+                        {% for item in variantscol %}
+                        <option   value="{{item.id}}" >{{item.size}}</option>
+                        {% endfor %}
+
+                      </select>
+                      </form>
+                        </div>
+
+                    {% else %}
+
+                    <div class="">
+                      <form method="POST" id="color-change">
+                        {% csrf_token %}
+                        <input type="hidden" id="productId" name="productId" value="{{product.id}}">
+                        <!-- <input type="hidden" id="variantId" name="variantId" value="{{item.id}}"> -->
+
+                      <h4>CHOOSE COLOR</h4>
+                      <ul>
+                        <select class="" name="variantId" onchange="this.form.submit();" required>
+                          <option value="1">Select Color</option>
+                          {% for item in variantscol %}
+                          <option value="{{item.id}}">{{item.color}}</option>
+                          {% endfor %}
+                        </select>
+                      </ul>
+                      </form>
+                    </div>
+
+
+                    {% endif %}
+                  {% endif %}
+                  <div class="ps-product__block ps-product__size">
+                  <form class="" action="{% url 'home:addtocart' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="productval" value="{{product.id}}">
+
+                  <div class="form-group">
+
+                    <input class="form-control" type="number" name="quant" value="1">
+                  </div>
+                <div class="ps-product__shopping"><button class="ps-btn mb-10" type="Submit" >Add to cart<i class="ps-icon-next"></i></button>
+                  <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
+                </div>
+              </form>
+            </div>
+            </div>
+                  <!-- <div class="form-group">
+                    <input class="form-control" type="number" value="1">
+                  </div>
+                <div class="ps-product__shopping"><a class="ps-btn mb-10" href="cart.html">Add to cart<i class="ps-icon-next"></i></a>
+                  <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
+                </div>
+              </div> -->
+
+
+              <div class="clearfix"></div>
+              <div class="ps-product__content mt-50">
+                <ul class="tab-list" role="tablist">
+                  <li class="active"><a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a></li>
+                  <li><a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">Review</a></li>
+                  <!-- <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">PRODUCT TAG</a></li> -->
+                  <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">ADDITIONAL</a></li>
+                </ul>
+              </div>
+              <div class="tab-content mb-60">
+                <div class="tab-pane active" role="tabpanel" id="tab_01">
+                  <p>Caramels tootsie roll carrot cake sugar plum. Sweet roll jelly bear claw liquorice. Gingerbread lollipop dragée cake. Pie topping jelly-o. Fruitcake dragée candy canes tootsie roll. Pastry jelly-o cupcake. Bonbon brownie soufflé muffin.</p>
+                  <p>Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake lemon drops gummi bears croissant macaroon pie. Fruitcake tootsie roll chocolate cake Carrot cake cake bear claw jujubes topping cake apple pie. Jujubes gummi bears soufflé candy canes topping gummi bears cake soufflé cake. Cotton candy soufflé sugar plum pastry sweet roll..</p>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab_02">
+                  <p class="mb-20">1 review for <strong>Shoes Air Jordan</strong></p>
+                  <div class="ps-review">
+                    <div class="ps-review__thumbnail"><img src="{% static 'images/user/1.jpg' %}" alt=""></div>
+                    <div class="ps-review__content">
+                      <header>
+                        <select class="ps-rating">
+                          <option value="1">1</option>
+                          <option value="1">2</option>
+                          <option value="1">3</option>
+                          <option value="1">4</option>
+                          <option value="5">5</option>
+                        </select>
+                        <p>By<a href=""> Alena Studio</a> - November 25, 2017</p>
+                      </header>
+                      <p>Soufflé danish gummi bears tart. Pie wafer icing. Gummies jelly beans powder. Chocolate bar pudding macaroon candy canes chocolate apple pie chocolate cake. Sweet caramels sesame snaps halvah bear claw wafer. Sweet roll soufflé muffin topping muffin brownie. Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
+                    </div>
+                  </div>
+                  <form class="ps-product__review" action="_action" method="post">
+                    <h4>ADD YOUR REVIEW</h4>
+                    <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                            <div class="form-group">
+                              <label>Name:<span>*</span></label>
+                              <input class="form-control" type="text" placeholder="">
+                            </div>
+                            <div class="form-group">
+                              <label>Email:<span>*</span></label>
+                              <input class="form-control" type="email" placeholder="">
+                            </div>
+                            <div class="form-group">
+                              <label>Your rating<span></span></label>
+                              <select class="ps-rating">
+                                <option value="1">1</option>
+                                <option value="1">2</option>
+                                <option value="1">3</option>
+                                <option value="1">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 ">
+                            <div class="form-group">
+                              <label>Your Review:</label>
+                              <textarea class="form-control" rows="6"></textarea>
+                            </div>
+                            <div class="form-group">
+                              <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>
+                            </div>
+                          </div>
+                    </div>
+                  </form>
+                </div>
+                <!-- <div class="tab-pane" role="tabpanel" id="tab_03">
+                  <p>Add your tag <span> *</span></p>
+                  <form class="ps-product__tags" action="_action" method="post">
+                    <div class="form-group">
+                      <input class="form-control" type="text" placeholder="">
+                      <button class="ps-btn ps-btn--sm">Add Tags</button>
+                    </div>
+                  </form>
+                </div> -->
+                <div class="tab-pane" role="tabpanel" id="tab_03">
+                  {{product.additional_info | safe }}
+                  <!-- <div class="form-group">
+                    <textarea class="form-control" rows="6" placeholder="Enter your addition here..."></textarea>
+                  </div>
+                  <div class="form-group">
+                    <button class="ps-btn" type="button">Submit</button>
+                  </div> -->
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      <div class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-80">
+        <div class="ps-container">
+          <div class="ps-section__header mb-50">
+            <div class="row">
+                  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+                    <h3 class="ps-section__title" data-mask="Related item">- YOU MIGHT ALSO LIKE</h3>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                    <div class="ps-owl-actions"><a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a></div>
+                  </div>
+            </div>
+          </div>
+          <div class="ps-section__content">
+            <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail">
+                    <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{% static 'images/shoe/1.jpg' %}" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal"><img src="{% static 'images/shoe/2.jpg' %}" alt=""><img src="{% static 'images/shoe/3.jpg' %}" alt=""><img src="{% static 'images/shoe/4.jpg' %}" alt=""><img src="{% static 'images/shoe/5.jpg' %}" alt=""></div>
+                      <select class="ps-rating ps-shoe__rating">
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="2">5</option>
+                      </select>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                      <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail">
+                    <div class="ps-badge"><span>New</span></div>
+                    <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{% static 'images/shoe/2.jpg' %}" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal"><img src="{% static 'images/shoe/2.jpg' %}" alt=""><img src="{% static 'images/shoe/3.jpg' %}" alt=""><img src="{% static 'images/shoe/4.jpg' %}" alt=""><img src="{% static 'images/shoe/5.jpg' %}" alt=""></div>
+                      <select class="ps-rating ps-shoe__rating">
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="2">5</option>
+                      </select>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                      <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price">
+                        <del>£220</del> £ 120</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail">
+                    <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{% static 'images/shoe/3.jpg' %}" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal"><img src="{% static 'images/shoe/2.jpg' %}" alt=""><img src="{% static 'images/shoe/3.jpg' %}" alt=""><img src="{% static 'images/shoe/4.jpg' %}" alt=""><img src="{% static 'images/shoe/5.jpg' %}" alt=""></div>
+                      <select class="ps-rating ps-shoe__rating">
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="2">5</option>
+                      </select>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                      <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail"><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{% static 'images/shoe/4.jpg' %}" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal"><img src="{% static 'images/shoe/2.jpg' %}" alt=""><img src="{% static 'images/shoe/3.jpg' %}" alt=""><img src="{% static 'images/shoe/4.jpg' %}" alt=""><img src="{% static 'images/shoe/5.jpg' %}" alt=""></div>
+                      <select class="ps-rating ps-shoe__rating">
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="2">5</option>
+                      </select>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                      <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail">
+                    <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{% static 'images/shoe/5.jpg' %}" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal"><img src="{% static 'images/shoe/2.jpg' %}" alt=""><img src="{% static 'images/shoe/3.jpg' %}" alt=""><img src="{% static 'images/shoe/4.jpg' %}" alt=""><img src="{% static 'images/shoe/5.jpg' %}" alt=""></div>
+                      <select class="ps-rating ps-shoe__rating">
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="2">5</option>
+                      </select>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                      <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ps-shoes--carousel">
+                <div class="ps-shoe">
+                  <div class="ps-shoe__thumbnail"><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{% static 'images/shoe/6.jpg' %}" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+                  </div>
+                  <div class="ps-shoe__content">
+                    <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal"><img src="{% static 'images/shoe/2.jpg' %}" alt=""><img src="{% static 'images/shoe/3.jpg' %}" alt=""><img src="{% static 'images/shoe/4.jpg' %}" alt=""><img src="{% static 'images/shoe/5.jpg' %}" alt=""></div>
+                      <select class="ps-rating ps-shoe__rating">
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="2">5</option>
+                      </select>
+                    </div>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                      <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        {% endblock %}
+        {% block Querycontent %}
+        <script>
+        $(document).on('change', '#size-change',function(e){
+           console.log("productid",$('#productId').val())
+           console.log("size",$('#size').val())
+
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url:'{% url "home:ajaxsize" %}',
+                data:{
+                    product:$('#productId').val(),
+                    size:$('#size').val(),
+
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'post'
+                },
+                data_type : 'html',
+                success: function (data) {
+                    console.log("success",data);
+                    $('#appendcolor').html(data.rendered_table);
+                },
+                error: function (data) {
+                    console.log("Got an error dude " + data);
+                }
+            });
+        });
+        </script>
+          {% endblock %}

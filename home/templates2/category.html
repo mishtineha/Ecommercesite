@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- <div class="header-services">
+      <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+      </div>
+    </div> -->
+    <main class="ps-main">
+      <div class="ps-products-wrap pt-40 pb-80">
+        <div class="ps-products" data-mh="product-listing">
+          <div class="ps-product-action">
+            <!-- <div class="ps-product__filter">
+              <select class="ps-select selectpicker">
+                <option value="1">Shortby</option>
+                <option value="2">Name</option>
+                <option value="3">Price (Low to High)</option>
+                <option value="3">Price (High to Low)</option>
+              </select>
+            </div> -->
+            <div class="ps-pagination">
+              <ul class="pagination">
+                <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">...</a></li>
+                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ps-product__columns">
+            {% if numbers %}
+            {% for item in numbers %}
+            <div class="ps-product__column">
+              <div class="ps-shoe mb-30">
+                <div class="ps-shoe__thumbnail">
+                  <!-- <div class="ps-badge"><span>New</span></div> -->
+                  {% if item.discount_percent == 0 %}
+                  {% else %}
+                  <div class="ps-badge ps-badge--sale"><span>-{{item.discount_percent}}%</span></div>
+                  {% endif %}
+                  {% if user.is_authenticated %}
+                  {% if wishing %}
+                  <a class="ps-shoe__favorite " style="color:#F4CB79;background:#F4CB79;" href="{% url 'home:wishlists' item.id %}">
+                    <i class="ps-icon-heart"></i></a>
+                    {% else %}
+                    <a class="ps-shoe__favorite" href="{% url 'home:wishlists' item.id %}">
+                      <i class="ps-icon-heart"></i></a>
+                    {% endif %}
+                      {% endif %}
+                  <img src="{{ item.productimages.first.image1.url }}" alt="{{item.ProductName}}">
+                  <a class="ps-shoe__overlay" href="{% url 'home:product' item.slug %}"></a>
+                </div>
+                <div class="ps-shoe__content">
+                  <div class="ps-shoe__variants">
+                    <div class="ps-shoe__variant normal"><img src="{{ item.productimages.first.image1.url }}" alt="{{item.ProductName}}">
+                      <img src="{{ item.productimages.first.image2.url }}" alt="{{item.ProductName}}">
+                      <img src="{{ item.productimages.first.image3.url }}" alt="{{item.ProductName}}">
+                      <img src="{{ item.productimages.first.image4.url }}" alt="{{item.ProductName}}"></div>
+                    <!-- <select class="ps-rating ps-shoe__rating">
+                      <option value="1">1</option>
+                      <option value="1">2</option>
+                      <option value="1">3</option>
+                      <option value="1">4</option>
+                      <option value="2">5</option>
+                    </select> -->
+                  </div>
+                  <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{% url 'home:product' item.slug %}">{{item.ProductName}}</a>
+                    <!-- <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p> -->
+                    <span class="ps-shoe__price">
+                      {% if item.discount_percent == 0 %}
+                      ₹{{item.price}}
+                      {% else %}
+                      <del>₹{{item.price}}</del> ₹{{item.discount_price}}</span>
+                      {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+
+                            <img src="{% static 'images/search3.png' %}" alt="No result Found" class="ml-auto mr-auto img img-fluid " width="50%"  >
+                            {% endif %}
+          </div>
+
+
+
+          <div class="ps-product-action">
+            <!-- <div class="ps-product__filter">
+              <select class="ps-select selectpicker">
+                <option value="1">Shortby</option>
+                <option value="2">Name</option>
+                <option value="3">Price (Low to High)</option>
+                <option value="3">Price (High to Low)</option>
+              </select>
+            </div> -->
+<!--
+            {% if numbers.has_other_pages %}
+                     <ul class="pagination flex-wrap">
+
+
+                       {% if numbers.has_previous %}
+                         <li><a class="btn bg-primary" href="?page={{ numbers.previous_page_number }}" style="font-size: 12px; min-width: 20px; min-height:40px; border:0.5px solid black"><span>&laquo;</span></a></li>
+                       {% else %}
+                         <li class="btn bg-primary disabled" style="font-size: 12px; min-width: 20px; min-height:40px; border:0.5px solid black"><span>&laquo;</span></li>
+                       {% endif %}
+                       {% for i in numbers.paginator.page_range  %}
+
+                         {% if numbers.number == i %}
+                           <li class="btn bg-success active" style="min-width: 20px; min-height:40px; border:0.5px solid black" ><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+
+                         {% elif i > numbers.number|add:'-4' and i < numbers.number|add:'4' %}
+                         {% if filtered %}
+                           <li ><a class="btn bg-primary"  style="min-width: 20px; min-height:40px; border:0.5px solid black" href="{{ request.get_full_path }}&page={{ i }}">{{ i }}</a></li>
+                           {% else %}
+                           <li ><a class="btn bg-primary" style="min-width: 20px; min-height:40px; border:0.5px solid black" href="?page={{ i }}">{{ i }}</a></li>
+                           {% endif %}
+
+
+
+                         {% endif %}
+                       {% endfor %}
+                       {% if numbers.has_next %}
+
+                         <li><a class="btn bg-primary" href="?page={{ numbers.next_page_number }}" style="font-size: 12px; min-width: 20px; min-height:40px; border:0.5px solid black">    <span>&raquo;</span></a></li>
+
+
+
+                       {% else %}
+                         <li style="font-size: 10px; min-width: 20px; min-height:40px; border:0.5px solid black" class="btn bg-primary disabled"><span>&raquo;</span></li>
+                       {% endif %}
+                     </ul>
+                   {% endif %} -->
+            <div class="ps-pagination">
+              {% if numbers.has_other_pages %}
+              <ul class="pagination">
+
+               {% if numbers.has_previous %}
+                 <li><a class="btn bg-primary" href="?page={{ numbers.previous_page_number }}" style="font-size: 12px; min-width: 20px; min-height:40px; border:0.5px solid black"><span>&laquo;</span></a></li>
+               {% else %}
+                 <li class="btn bg-primary disabled" style="font-size: 12px; min-width: 20px; min-height:40px; border:0.5px solid black"><span>&laquo;</span></li>
+               {% endif %}
+                <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">...</a></li>
+                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                {% endif %}
+
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="ps-sidebar" data-mh="product-listing">
+          <form method="get">
+
+
+          <aside class="ps-widget--sidebar ps-widget--category">
+            {% for choice in Category %}
+
+            {% if choice.parent is not None %}
+
+            {% if choice.parent.slug == sluging %}
+              {% if choice.active %}
+            <div class="ps-widget__header">
+              <h3>{{choice.CategoryName}}</h3>
+            </div>
+            {% endif %}
+            <div class="ps-widget__content">
+              <ul class="ps-list--checked">
+                {% for items in choice.SubcatName.all %}
+                  <li>
+                <label for="{{items.id}}"><input type="checkbox" name="Sub_category" value="{{items.name}}" id="{{items.id}}" >   {{items.name}} </label></li>
+
+                  {% endfor %}
+              </ul>
+            </div>
+              {% endif %}
+            {% endif %}
+            {% endfor %}
+          </aside>
+          <button type="submit" style="cursor:pointer; background-color:#F4CB79" class="btn btn-outline-primary ml-4">Filters</button>
+          <a onclick="resetAll()" style="cursor:pointer" class="sidebar-filter-clear ">Clean All</a>
+            </form>
+        </div>
+      </div>
+
+
+      <script type="text/javascript">
+
+
+
+
+
+  function resetAll(){
+
+      var newURL = location.href.split("?")[0];
+      window.history.pushState('object', document.title, newURL);
+      window.location.reload()
+      $(':checkbox').prop('checked', false);
+  }
+
+
+
+</script>
+      {% endblock %}
