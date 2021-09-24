@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+		<!-- <div class=""> -->
+
+		<h2 style="margin-left:auto; margin-right:auto;">Invoice</h2>
+			<a href="www.souvenirpublisher.com"><img id="logo" src="https://www.souvenirpublisher.com/static/img/logo.png"  title="Souvenir Publisher" alt="Souvenir Publisher" style="display: block; width: 168px;" /></a>
+			<p >Invoice Number - {{invoice.order_id}}</p>
+			<p >GST Number - 06AALCA0171E1Z3</p>
+		<!-- </div> -->
+    <br>
+    <br>
+    <br>
+    <br>
+    <p>
+      <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 24px; line-height: 60px; font-weight: 300; letter-spacing: -1.5px;"></span>
+
+      <br>
+      <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 16px; line-height: 32px;">{{message_1}}</span>
+
+    </p>
+    <div class="table-responsive">
+      <table class="table table-bordered text-1 table-sm table-striped" style="border:1px solid #ddd;">
+        <thead>
+          <tr>
+            <td colspan="2" class=""><span class="font-weight-600">Transaction ID</span>: {{invoice.transaction_id}}</td>
+						<td colspan="2" class="">	 <span class="float-right"><span class="font-weight-600" style="margin-right:0px !important;">Invoice Date</span>: {{invoice.created}}</span></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border:1px solid #ddd;">
+            <th style="border:1px solid #ddd;" class="font-weight-800 col-6 text-center " colspan="2" >Billing Details</th>
+            <!-- <td class="col-4">3912912704</td> -->
+            <th style="border:1px solid #ddd;" class="font-weight-800 col-6 text-center" colspan="2">Shipping Details</th>
+            <!-- <td class="col-4">2213335256</td> -->
+          </tr>
+          <tr style="border:1px solid #ddd;">
+            <td style="border:1px solid #ddd;" class="font-weight-600  col-2"><strong>Name</strong></td>
+            <td style="border:1px solid #ddd;" class="col-4">{{invoice.nameDetail}}</td>
+            <td style="border:1px solid #ddd;" class="font-weight-600  col-2"><strong>Name</strong></td>
+            <td style="border:1px solid #ddd;" class="col-4">{{invoice.nameDetail}}</td>
+          </tr>
+
+          <tr rowspan="3">
+            <td style="border:1px solid #ddd;" class="font-weight-600 col-2" ><strong>Address</strong></td>
+            <td style="border:1px solid #ddd;" class="col-4" >
+              {{invoice.billing_address}}
+            </td>
+            <td style="border:1px solid #ddd;" class="font-weight-600  col-2" ><strong>Address</strong></td>
+            <td style="border:1px solid #ddd;" class="col-4" >
+              {{invoice.full_address}},
+              {% if invoice.address2 %}
+              {{invoice.address2}},
+              {% endif %}
+              {{invoice.city}},
+              {{invoice.states}}-{{invoice.pin_code}}
+            </td>
+          </tr>
+          <tr style="border:1px solid #ddd;">
+            <td style="border:1px solid #ddd;" class="font-weight-600 col-2" ><strong>Order Number</strong></td>
+            <td style="border:1px solid #ddd;" class="col-4" >{{invoice.order_id}}</td>
+            <td style="border:1px solid #ddd;" class="font-weight-600  col-2"><strong>Order Date</strong></td>
+            <td style="border:1px solid #ddd;" class="col-4" >{{invoice.created}}</td>
+          </tr>
+          {% if invoice.gst_number %}
+          <tr style="border:1px solid #ddd;">
+            <td style="border:1px solid #ddd;" class="font-weight-600 col-2" ><strong>GST Number</strong></td>
+            <td style="border:1px solid #ddd;" class="col-4" >{{invoice.gst_number}}</td>
+            <td  class="font-weight-600  col-2"></td>
+            <td  class="col-4" ></td>
+          </tr>
+          {% endif %}
+
+        </tbody>
+      </table>
+    </div>
+    <!-- Passenger Details -->
+    <h4 class="text-4 mt-2">Order Details</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered text-1 table-sm" style="border:1px solid #ddd;">
+        <thead>
+          <tr style="background-color:#000; color:#fff;">
+            <th style="border:1px solid #ddd;" class="col-1" >S. NO.</th>
+            <th style="border:1px solid #ddd;" class="col-4" >Name</th>
+            <th style="border:1px solid #ddd;" class="col-1" >Price(MRP)</th>
+            <th style="border:1px solid #ddd;" class="col-1" >Discount</th>
+            <th style="border:1px solid #ddd;" class="col-1" >Net Amount</th>
+            <th style="border:1px solid #ddd;" class="col-1" >Unit Price</th>
+            <th style="border:1px solid #ddd;" class="col-1" >Qty</th>
+            <th style="border:1px solid #ddd;" class="col-1" >IGST</th>
+            <th style="border:1px solid #ddd;" class="col-1" >Tax amount</th>
+            <th style="border:1px solid #ddd;" class="col-1" >Total Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in invoice.order_item.all  %}
+          <tr style="border:1px solid #ddd;">
+            <td style="border:1px solid #ddd;" class="col-1" >{{forloop.counter}}</td>
+            <td style="border:1px solid #ddd;" class="col-4" >{{item.product.ProductName}}</td>
+            <td style="border:1px solid #ddd;" class="col-1" >₹{{ item.product.price }}</td>
+            <td style="border:1px solid #ddd;" class="col-1" >{{ item.product.discount_percent }}%</td>
+            <td style="border:1px solid #ddd;" class="col-1" >₹{{ item.product.discount_price }}</td>
+            <td style="border:1px solid #ddd;" class="col-1" >₹{{ item.product.unit_price }}</td>
+            <td style="border:1px solid #ddd;" class="col-1" >{{ item.quantity }}</td>
+            <td style="border:1px solid #ddd;" class="col-1" >{{ item.product.gst }}%</td>
+            <td style="border:1px solid #ddd;" class="col-1" >₹{{ item.product.tax_amount }}</td>
+            <td style="border:1px solid #ddd;" class="col-1" >₹{{ item.product.discount_price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <h4 class="text-4 mt-2">Price Details</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered" style="border:1px solid #ddd;">
+        <tbody>
+          {% if order.coupon %}
+          <tr style="border:1px solid #ddd;">
+            <td style="border:1px solid #ddd;" class="col-9 font-weight-500 text-right" style="background-color:#ddd"><strong>Discount:</strong></td>
+            {% if order.coupon.discount > 0 %}
+            <td style="border:1px solid #ddd;" class="col-3 text-right">₹{{order.coupon.discount}}</td>
+            {% else %}
+            <td style="border:1px solid #ddd;" class="col-3 text-right">₹{{order.coupon.discount_percent}}</td>
+            {% endif %}
+          </tr>
+          {% endif %}
+          <tr style="border:1px solid #ddd;">
+            <td style="border:1px solid #ddd;" class="col-9 font-weight-500 text-right" style="background-color:#ddd"><strong>Sub Total:</strong></td>
+            <td style="border:1px solid #ddd;" class="col-3 text-right">₹{{order.get_cart_total}}</td>
+          </tr>
+          <tr style="border:1px solid #ddd;">
+            <td style="border:1px solid #ddd;" class="col-9 font-weight-500 text-right" style="background-color:#ddd"><strong>Shipping Charges:</strong></td>
+            <td style="border:1px solid #ddd;" class="col-3 text-right">₹{{order.get_ship_total}}</td>
+          </tr>
+          <tr style="border:1px solid #ddd;">
+            <td style="border:1px solid #ddd;" class="col-9 font-weight-500 text-right" style="background-color:#ddd"><strong>Total Amount:</strong></td>
+            <td style="border:1px solid #ddd;" class="col-3 text-right">₹{{order.get_cart_ship_total}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="width: 100% !important; min-width: 100%; max-width: 100%; background: #f3f3f3;">
+       <tr>
+          <td align="center" valign="top">
+             <div style="height: 34px; line-height: 34px; font-size: 32px;">&nbsp;</div>
+             <table cellpadding="0" cellspacing="0" border="0" width="88%" style="width: 88% !important; min-width: 88%; max-width: 88%;">
+                <tr>
+                   <td align="center" valign="top">
+                      <table cellpadding="0" cellspacing="0" border="0" width="78%" style="min-width: 300px;">
+                         <tr>
+                            <td align="center" valign="top" width="23%">
+                               <a style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
+                                  <font face="'Source Sans Pro', sans-serif" color="#1a1a1a" style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
+                                     <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">HELP&nbsp;CENTER</span>
+                                  </font>
+                               </a>
+                            </td>
+                            <td align="center" valign="top" width="10%">
+                               <font face="'Source Sans Pro', sans-serif" color="#1a1a1a" style="font-size: 17px; line-height: 17px; font-weight: bold;">
+                                  <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 17px; font-weight: bold;">&bull;</span>
+                               </font>
+                            </td>
+                            <td align="center" valign="top" width="23%">
+                               <a style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
+                                  <font face="'Source Sans Pro', sans-serif" color="#1a1a1a" style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
+                                     <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">SUPPORT&nbsp;24/7</span>
+                                  </font>
+                               </a>
+                            </td>
+                            <td align="center" valign="top" width="10%">
+                               <font face="'Source Sans Pro', sans-serif" color="#1a1a1a" style="font-size: 17px; line-height: 17px; font-weight: bold;">
+                                  <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 17px; font-weight: bold;">&bull;</span>
+                               </font>
+                            </td>
+                            <td align="center" valign="top" width="23%">
+                               <a  style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
+                                  <font face="'Source Sans Pro', sans-serif" color="#1a1a1a" style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
+                                     <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">ACCOUNT</span>
+                                  </font>
+                               </a>
+                            </td>
+                         </tr>
+                      </table>
+                      <div style="height: 34px; line-height: 34px; font-size: 32px;">&nbsp;</div>
+                      <font face="'Source Sans Pro', sans-serif" color="#868686" style="font-size: 17px; line-height: 20px;">
+                         <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #868686; font-size: 17px; line-height: 20px;">Copyright &copy; 2020 Created by Souvenir Publisher Pvt. Ltd. All&nbsp;Rights&nbsp;Reserved. We&nbsp;appreciate&nbsp;you!</span>
+                      </font>
+                      <div style="height: 3px; line-height: 3px; font-size: 1px;">&nbsp;</div>
+                      <font face="'Source Sans Pro', sans-serif" color="#1a1a1a" style="font-size: 17px; line-height: 20px;">
+                         <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 20px;"><a  style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 20px; text-decoration: none;">info@souvenirpublisher.in</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="#" target="_blank" style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 20px; text-decoration: none;">01-204330184/ 86/ 87/ 88</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a  style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 20px; text-decoration: none;"></a></span>
+                      </font>
+                      <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
+                      <table cellpadding="0" cellspacing="0" border="0">
+                         <tr>
+                            <td align="center" valign="top">
+                               <a href="https://www.instagram.com/souvenirpublisher/" target="_blank" style="display: block; max-width: 19px;">
+                                  <img src="https://marketing-image-production.s3.amazonaws.com/uploads/524b3306878ab7bb117d6889a528e9fd6099bd2fe32f6ff7fed0feafde70da51d4f664aa7ac89a27ebb6077022894c9a47f51c33e6e568e0bff04a6fa223e984.png" alt="img" width="19" border="0" style="display: block; width: 19px;" />
+                               </a>
+                            </td>
+                            <td width="45" style="width: 45px; max-width: 45px; min-width: 45px;">&nbsp;</td>
+                            <td align="center" valign="top">
+                               <a href="https://www.facebook.com/souvenirpublisherindia/" target="_blank" style="display: block; max-width: 18px;">
+                                  <img src="https://marketing-image-production.s3.amazonaws.com/uploads/b393e99d289028fa9e3edbaf13632e4e01000ad30e03bfde35bc3ee0293cb5bc6e2e52fcc4f445b2adac3ff404d257b4edfd52e7f19f90f852b26aca072ac0e5.png" alt="img" width="18" border="0" style="display: block; width: 18px;" />
+                               </a>
+                            </td>
+                            <td width="45" style="width: 45px; max-width: 45px; min-width: 45px;">&nbsp;</td>
+                            <td align="center" valign="top">
+                               <a href="https://twitter.com/souvenirpublish" target="_blank" style="display: block; max-width: 21px;">
+                                  <img src="https://marketing-image-production.s3.amazonaws.com/uploads/7fed23198b2f55c8d405dc6ded7e7b10c56a4bf76cdaab9047b1786a0655fa65542d2d4089848c559190d6a9b1cd489ca3e9509cf18cd6fef17f9b559d858caa.png" alt="img" width="21" border="0" style="display: block; width: 21px;" />
+                               </a>
+                            </td>
+                            <td width="45" style="width: 45px; max-width: 45px; min-width: 45px;">&nbsp;</td>
+                            <td align="center" valign="top">
+                               <a href="https://www.linkedin.com/company/souvenir-publishers-private-limited/" target="_blank" style="display: block; max-width: 25px;">
+                                  <img src="http://cdn.mcauto-images-production.sendgrid.net/e622fb8fcc870346/ccbed526-dd27-4d90-86ae-cc52c3f118ec/512x512.png" alt="img" width="25" border="0" style="display: block; width: 21px;" />
+                               </a>
+                            </td>
+                         </tr>
+                      </table>
+                      <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
+                   </td>
+                </tr>
+             </table>
+          </td>
+       </tr>
+    </table>
+
+  </body>
+</html>

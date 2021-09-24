@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+  .table>tbody>tr>td, .table>tfoot>tr>td{
+    vertical-align: middle;
+}
+.margin-top{
+  margin-top:-200px;
+}
+@media screen and (max-width: 600px) {
+    table#cart tbody td .form-control{
+		width:20%;
+		display: inline !important;
+	}
+	.actions .btn{
+		width:36%;
+		margin:1.5em 0;
+	}
+
+	.actions .btn-info{
+		float:left;
+	}
+	.actions .btn-danger{
+		float:right;
+	}
+
+	table#cart thead { display: none; }
+	table#cart tbody td { display: block; padding: .6rem; min-width:320px;}
+	table#cart tbody tr td:first-child { background: #333; color: #fff; }
+	table#cart tbody td:before {
+		content: attr(data-th); font-weight: bold;
+		display: inline-block; width: 8rem;
+	}
+
+
+
+	table#cart tfoot td{display:block; }
+	table#cart tfoot td .btn{display:block;}
+  .margin-top{
+    margin-top: 0px;
+    margin-bottom:10px;
+    padding: 10px 10px;
+    font-size:12px
+  }
+}
+  </style>
+<main class="ps-main">
+<div class="container mt-4 pt-4">
+  {% if order.OrderItem.all %}
+
+
+	 <table id="cart" class="table table-hover table-condensed">
+    			 	<thead>
+					 	<tr>
+					 		<th style="width:50%">Product</th>
+					 		<th style="width:10%">Price</th>
+					 		<th style="width:8%">Quantity</th>
+					 		<th style="width:22%" class="text-center">Subtotal</th>
+					 		<th style="width:10%"></th>
+					 	</tr>
+					</thead>
+          {% for item in order.OrderItem.all %}
+					<tbody>
+						<tr>
+							<td data-th="Product">
+								<div class="row">
+									<div class="col-sm-2 hidden-xs">
+
+                    <img src="{{ item.product.productimages.first.image.url }}" alt="{{ item.product.ProductName }}" class="img-responsive"/>
+                  </div>
+									<div class="col-sm-10">
+										<h4 class="nomargin">
+
+                      {{ item.product.ProductName }}
+
+                      </h4>
+										<!-- <p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p> -->
+									</div>
+								</div>
+							</td>
+							<td data-th="Price">
+              <span><i>₹ {{ item.product.price }}</i></span>
+
+              </td>
+							<td data-th="Quantity">
+								<input type="number" class="form-control text-center" value="{{item.quantity}}" disabled>
+							</td>
+							<td data-th="Subtotal" class="text-center">
+              <span><i>₹ {{ item.get_prod_total }}</i></span>
+
+              </td>
+							<td class="actions" data-th="">
+								<!-- <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button> -->
+								<a href="{% url 'shop:deletefromcart' item.id %}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
+							</td>
+						</tr>
+            {% endfor %}
+					</tbody>
+					<tfoot>
+						<tr class="visible-xs">
+							<td class="text-center"><strong>Total ₹{{ order.get_total }}</strong></td>
+						</tr>
+						<tr>
+							<td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+							<td colspan="2" class="hidden-xs"></td>
+							<td class="hidden-xs text-center"><strong></strong></td>
+							<td><a href="{% url 'shop:checkout' %}" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+						</tr>
+					</tfoot>
+				</table>
+
+        {% else %}
+        <img src="{% static 'img/EmptyCart.jpg' %}" alt="">
+    <center>    <a href="{% url 'home:index' %}" class="btn ps-btn margin-top">Back to shopping</a></center>
+        {% endif %}
+</div>
+</main>
+        {% endblock %}

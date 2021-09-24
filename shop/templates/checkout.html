@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="ps-checkout pt-80 pb-80">
+  <div class="ps-container">
+    <form class="ps-checkout__form" method="post">
+      {% csrf_token %}
+      <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
+              <div class="ps-checkout__billing">
+                  {% for error,value in form.errors.items %}
+                  <div class="alert alert-{{mess.tags}}" role="alert" style="text-align: center;">
+                  {{ value }}
+                </div>
+                  {% endfor %}
+                {% if messages %}
+                {% for mess in messages %}
+                <div class="alert alert-{{mess.tags}}" role="alert" style="text-align: center;">
+                  {{mess}}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <h3>Shipping Detail</h3>
+
+                      <div class="form-group form-group--inline">
+                        <label>Full Name<span>*</span>
+                        </label>
+                        <input class="form-control" name="nameDetail" required type="text">
+                      </div>
+                      <div class="form-group form-group--inline">
+                        <label>Email Address<span>*</span>
+                        </label>
+                        <input class="form-control" name="email"  required type="email">
+                      </div>
+                      <div class="form-group form-group--inline">
+                        <label>Phone<span>*</span>
+                        </label>
+                        <input class="form-control" name="phone_number"  required type="tel">
+                      </div>
+                      <div class="form-group form-group--inline">
+                        <label>Address Line<span>*</span>
+                        </label>
+                        <input class="form-control" name="full_address"  required type="text">
+                      </div>
+
+                          <div class="form-group form-group--inline">
+                            <label>Town/City<span>*</span>
+                            </label>
+                            <input class="form-control" name="city"  required type="text">
+                          </div>
+
+
+                          <div class="form-group form-group--inline">
+                            <label>State<span>*</span>
+                            </label>
+                            <input class="form-control" name="states"  required type="text">
+                          </div>
+
+
+                      <div class="form-group form-group--inline">
+                        <label>Postcode/Zip<span>*</span>
+                        </label>
+                        <input class="form-control" name="pin_code"  required type="tel">
+                      </div>
+
+                      <div class="form-group form-group--inline">
+                        <label>GST Number
+                        </label>
+                        <input class="form-control" type="text">
+                      </div>
+                      <div class="form-group form-group--inline textarea">
+                        <label>Billing Address</label>
+                        <textarea class="form-control"  required name="billing_address" rows="5" placeholder="No address added"></textarea>
+                      </div>
+
+
+
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+              <div class="ps-checkout__order">
+                <header>
+                  <h3>Your Order</h3>
+                </header>
+                <div class="content">
+                  <table class="table ps-checkout__products">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase">Product</th>
+                        <th class="text-uppercase">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in order.OrderItem.all %}
+                      <tr>
+                        <td>
+      										<h4 class="nomargin">  {% if item.variant %}
+                            {{ item.variant.title }} x {{item.quantity}}
+                            {% else %}
+                            {{ item.product.ProductName }} x {{item.quantity}}
+
+                            {% endif %}</td>
+                        <td>{% if item.variant %}
+                        <span>₹ {{ item.get_vari_total }}</span>
+                        {% else %}
+                        <span>₹ {{ item.get_prod_total }}</span>
+
+                        {% endif %}</td>
+                      </tr>
+
+                      {% endfor %}
+                      <tr>
+                        <td>Subtotal</td>
+                        <td>
+                        <span>₹ {{ order.get_cart_total }}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Shipping Charges</td>
+                        <td>
+                          {% if order.get_ship_total == 0 %}
+                            FREE
+                            {% else %}
+                        <span>₹ {{ order.get_cart_total }}</span>
+                          {% endif %}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Order Total</td>
+                        <td>₹{{ order.get_cart_ship_total }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <footer>
+                  <!-- <h3>Payment Method</h3>
+                  <div class="form-group cheque">
+                    <div class="ps-radio">
+                      <input class="form-control" type="radio" id="rdo01" name="payment" checked>
+                      <label for="rdo01">Cheque Payment</label>
+                      <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                    </div>
+                  </div> -->
+                  <div class="form-group paypal">
+                    <!-- <div class="ps-radio ps-radio--inline">
+                      <input class="form-control" type="radio" name="payment" id="rdo02">
+                      <label for="rdo02">Paypal</label>
+                    </div>
+                    <ul class="ps-payment-method">
+                      <li><a href="#"><img src="images/payment/1.png" alt=""></a></li>
+                      <li><a href="#"><img src="images/payment/2.png" alt=""></a></li>
+                      <li><a href="#"><img src="images/payment/3.png" alt=""></a></li>
+                    </ul> -->
+                    <button type="submit" class="ps-btn ps-btn--fullwidth">Place Order<i class="ps-icon-next"></i></button>
+                  </div>
+                </footer>
+              </div>
+
+            </div>
+      </div>
+    </form>
+  </div>
+</div>
+        {% endblock %}
