@@ -25,8 +25,8 @@ SECRET_KEY = '!(3(u(!r7qf2%wsw&=gldzl04+urjdueq2p=_84fs^0sm)u^_p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# ALLOWED_HOSTS = ['https://www.sayra.in','https://sayra.in','www.sayra.in','http://sayra.in','http://www.sayra.in','sayra.in']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://www.sayra.in','https://sayra.in','www.sayra.in','http://sayra.in','http://www.sayra.in','sayra.in']
+# ALLOWED_HOSTS = ['*']
 
 # Application definition
 
