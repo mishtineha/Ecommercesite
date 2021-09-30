@@ -1,40 +1,6 @@
 {% load static %}
+{% load home_tags %}
 <header class="header">
-  <div class="header__top">
-    <div class="container-fluid">
-      <div class="row">
-            <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12 ">
-              <p>Greater Noida, Uttar Pradesh, India  -  Hotline: +91-9927300827</p>
-            </div>
-            <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-              <div class="header__actions">
-                {% if request.user.is_authenticated %}
-                <div class="btn-group ps-dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ profile.name }}<i class="fa fa-angle-down"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="{% url 'account:profile' %}">Profile</a></li>
-                    <li><a href="{% url 'home:wishlistPage' %}">Wishlist</a></li>
-                    <li><a href="{% url 'shop:order_summary' %}">Your Orders</a></li>
-                    <li><a href="/logout">Logout</a></li>
-
-                    <!-- <li><a href="#"><img src="{% static 'images/flag/singapore.svg' %}" alt=""> SGD</a></li>
-                    <li><a href="#"><img src="{% static 'images/flag/japan.svg' %}" alt=""> JPN</a></li> -->
-                  </ul>
-                </div>
-                {% else %}
-                <a href="{% url 'account:signin' %}">Login & Regiser</a>
-                {% endif %}
-                <!-- <div class="btn-group ps-dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language<i class="fa fa-angle-down"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">English</a></li>
-                    <li><a href="#">Japanese</a></li>
-                    <li><a href="#">Chinese</a></li>
-                  </ul>
-                </div> -->
-              </div>
-            </div>
-      </div>
-    </div>
-  </div>
   <nav class="navigation" style="border-bottom: 1px solid #eee;">
     <div class="container-fluid">
       <div class="navigation__column left">
@@ -114,8 +80,32 @@
           <button><i class="ps-icon-search"></i></button>
         </form>
         {% endcomment %}
-        <div class="ps-cart">      <a class="ps-cart__toggle "  href="{% url 'home:wishlistPage' %}">
-                <i class="ps-icon-heart"></i></a></div>
+          <div class="ps-cart">
+             {% if request.user.is_authenticated %}
+                <div class="btn-group ps-dropdown">
+                  <a class="dropdown-toggle  ps-cart__toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   {% with profile.name|get_initials as initial %}
+                    <i>{{ initial }}</i>
+                    {% endwith %}
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{% url 'account:profile' %}">Profile</a></li>
+                    <li><a href="{% url 'home:wishlistPage' %}">Wishlist</a></li>
+                    <li><a href="{% url 'shop:order_summary' %}">Your Orders</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                  </ul>
+                </div>
+                {% else %}
+                <a class="ps-cart__toggle" href="{% url 'account:signin' %}">
+                  <i><img src="{% static 'images/login_image.png' %}"></i>
+
+                </a>
+                {% endif %}
+          </div>
+        <div class="ps-cart">
+          <a class="ps-cart__toggle"  href="{% url 'home:wishlistPage' %}">
+                <i class="ps-icon-heart"></i></a>
+        </div>
         <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>{% if order.get_cart_items %}{{ order.get_cart_items }} {% else %} 0 {% endif %}</i></span><i class="ps-icon-shopping-cart"></i></a>
           <div class="ps-cart__listing">
             {% if order.get_cart_items %}

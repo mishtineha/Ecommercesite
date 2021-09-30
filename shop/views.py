@@ -297,7 +297,7 @@ def orderlist(request):
     except:
         order = None
     # print(order.order_num,order)
-    Category = category.objects.all()
+    category = Category.objects.all()
     subcate = subcategory.objects.all()
 
 
@@ -305,7 +305,7 @@ def orderlist(request):
 
     deliver = Delivery.objects.all()
     context = {
-    'Category':Category,
+    'Category':category,
     'sub':subcate,
     'new_profile':profile,
 

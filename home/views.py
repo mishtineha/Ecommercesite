@@ -432,10 +432,10 @@ def contactus(request):
         mailing1.attach_alternative(html_content_send,"text/html")
         mailing1.send()
         return redirect('home:index')
-    Category = category.objects.all()
+    category = Category.objects.all()
     subcate = subcategory.objects.all()
     context = {
-    'Category':Category,
+    'Category':category,
     'sub':subcate,
     'order':order,
     'profile':profile
@@ -464,10 +464,10 @@ def wishlistPage(request):
     except:
         order = None
     wish = Wishlist.objects.filter(user=profile)
-    Category = category.objects.all()
+    category = Category.objects.all()
     subcate = subcategory.objects.all()
     context = {
-    'Category':Category,
+    'Category':category,
     'sub':subcate,
     'order':order,
     'profile':profile,

@@ -288,7 +288,7 @@ def profile(request):
         order.save()
     except:
         order = None
-    Category = category.objects.all()
+    category = Category.objects.all()
     # print(Category)
     subcate = subcategory.objects.all()
     if request.method == 'POST':
@@ -318,7 +318,7 @@ def profile(request):
             profile.avatar = avatar
         profile.save()
     context={
-    'Category':Category,
+    'Category':category,
     'sub':subcate,
     'order':order,
     'profile':profile
