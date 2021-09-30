@@ -1,53 +1,13 @@
 from django.shortcuts import render, redirect
 from .models import *
-from account.models import *
 from home.models import *
-
-from django.contrib.auth.decorators import login_required, user_passes_test
-
-import os
-
-
-
-import json
-# Create your views here.
-from django.db.models import F
-from django.db.models import Q
-
-from django.contrib.auth.forms import UserCreationForm
-
-from django.shortcuts import  get_object_or_404
 from django.urls import reverse
-#Paging
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from django.views.decorators.csrf import csrf_exempt
-import requests
-import hashlib
-import hmac
-import base64
-# import reportlab
 import string
-from hashlib import sha256
-from django.db.models import Count
-
-from rest_framework import pagination
-
-
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
-
-
-from django.urls import reverse_lazy
-from django.views import generic
-
-import math
 import random
-
-from django.core.mail import send_mail
-from django.contrib.auth.models import User, Group
 import razorpay
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -213,9 +173,6 @@ def check_response(request):
     except:
         order = None
     print(order)
-    Category = category.objects.all()
-    subcate = subcategory.objects.all()
-
     response = request.POST
 
     params_dict = {
@@ -223,131 +180,25 @@ def check_response(request):
         'razorpay_order_id' : response.get('razorpay_order_id'),
         'razorpay_signature' : response.get('razorpay_signature')
     }
-    # print("response.get('razorpay_payment_id')=====",response.get('razorpay_payment_id'))
-    # print("response.get('razorpay_order_id')=====",response.get('razorpay_order_id'))
-    # print("response.get('razorpay_signature')=====",response.get('razorpay_signature'))
-    #
-    #
-    # # VERIFYING SIGNATURE
-    # print(response.get('order_amount'))
-    # print(response.get('order_receipt'))
-
-    # try:
     status = client.utility.verify_payment_signature(params_dict)
     print("status======",status)
-    # order = Order.objects.get(order_num=order,complete=False)
-
     order_items =  OrderItem.objects.filter(order=order)
-
-    # order_items.update( date_ordered=datetime.datetime.now())
     transaction = Transaction.objects.create(profile=order.profile,
                     token=params_dict['razorpay_payment_id'],
                     order_id=order.order_num,
                     amount= order.get_cart_total  ,
                     success=True)
-    # transaction.save()
-    invoice = invoiceModel.objects.get(order_id=order.order_num)
+    invoice = invoiceModel.objects.filter(order_id=order.order_num).last()
     invoice.transaction_id = Transaction.objects.get(id=transaction.pk)
-
-#             invoice.order_item = postData['referenceId']
     invoice.success = True
 
     for item in order_items:
         invoice.order_item.add(item)
         invoice.save()
     invoice.save()
-    # try:
-    #     ownerbook = ownerShipTable.objects.get(owner= order.profile)
-    #     for item in order_items:
-    #         ownerbook.books.add(item.product)
-    #         ownerbook.save()
-    # except:
-    #     ownerbook = ownerShipTable.objects.create(owner= order.profile)
-    #     for item in order_items:
-    #         ownerbook.books.add(item.product)
-    #         ownerbook.save()
     order.complete=True
     order.save()
-
-    # html = '''<h1 align="center">PyFPDF HTML Demo</h1>
-    #   <p>This is regular text</p>
-    #      <p>You can also <b>bold</b>, <i>italicize</i> or <u>underline</u>
-    #      '''
-    #
-    # newTh = str(datetime.datetime.now())
-    # newTech = str(params_dict['razorpay_payment_id'])
-    # data = [['Transaction Reference Code', newTech],
-    # ['Order Date', str(invoice.created)],
-    #
-    # ['Order Number', str(invoice.order_item)],
-    # ['Amount',str(order.get_cart_total)],
-    # ['Invoice Date', newTh],
-    # ]
-    #
-    # spacing=3
-    # pdf = FPDF()
-    # pdf.set_font("Arial", size=12)
-    # pdf.add_page()
-    # pdf.image('https://sli-sp.s3.amazonaws.com/SLI/static/assets1/images/logo1/logo3.png', x=70, y=8, w=80)
-    #
-    # pdf.ln(75)
-    # pdf.cell(20, 10, txt="This is to verify that you have placed an order with us. Please visit your profile for a full receipt.", ln=1, align="L")
-    #
-    # pdf.ln(10)
-    # col_width = pdf.w / 2.2
-    # row_height = pdf.font_size
-    # for row in data:
-    #     for item in row:
-    #         pdf.cell(col_width, row_height*spacing,
-    #                  txt=item, border=1)
-    #     pdf.ln(row_height*spacing)
-    # pdf.ln(6)
-    #
-    # pdf.cell(20, 10, txt="Regards,", ln=1, align="L")
-    #
-    # pdf.cell(40, 10, txt="Souvenir Publishers Pvt Ltd", ln=1, align="L")
-    # abcd = ('invoice/{0}.pdf'.format(newTech))
-    # print(abcd)
-    # #abcd = 'static/{0}.pdf'.format(newTech)
-    # pdf.output(abcd)
-    # sg = sendgrid.SendGridClient('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')
-    # print("INVOICE ID")
-    # print(invoice.id)
-    email_to = invoice.email
-    print(email_to)
-    items2= '<p>'+'User details and order details are given below:-'+'<br>'+'Name: '+ invoice.owner.user.first_name + ' ' + invoice.owner.user.last_name + '<br>' + 'Email: '+email_to + '<br>' +'Phone Number: '+request.user.profile.phone_number +'</p>'
-    items2 +='<ul>'
-
-    for i in order_items:
-        items2 += '<li>' + str(i) +' - ' + str(i.quantity)+'                                    Amount- ' +str(i.get_total) + '</li>'
-
-    items2 += '</ul>'
-
-    print(items2)
-    message = sendgrid.Mail()
-    message.add_to([email_to])
-
-    message.set_subject('Order Confirmed -' + str(invoice.order_item))
-    message.set_html('Thank you for choosing Sayra. We sincerely appreciate getting to work with you. Help us serve you better with your valuable feedback. ')
-    message.set_text(' ')
-    message.set_from('info.digisahay@gmail.com')
-    # message.add_attachment(file_= abcd, name="Invoice.pdf")
-    status, msg = sg.send(message)
-    #
-    # print(status)
-    # print(msg)
-    #
-    #
-    # message_2 = sendgrid.Mail()
-    # message_2.add_to(['vasu@dreambox.cloud'])
-    #
-    # message_2.set_subject('Order Confirmed-'+str(invoice.order_item))
-    # message_2.set_html(items2)
-    # message_2.set_text(' ')
-    # message_2.set_from('info@souvenirpublisher.in')
-    # message_2.add_attachment(file_= abcd, name="Invoice.pdf")
-    # status, msg = sg.send(message_2)
-    return render(request, 'Thankyou.html', {'status': 'Payment Successful','order':order,'amount':order.get_cart_total,'referenceId':newTech})
+    return render(request, 'Thankyou.html', {'status': 'Payment Successful','order':order,'amount':order.get_cart_total})
 
 
 
