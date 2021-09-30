@@ -279,38 +279,16 @@ def deletefromcart(request,id):
 
 @login_required
 def orderlist(request):
-    try:
-        profile = UserProfile.objects.get(user=request.user)
-    except:
-        profile= None
-    try:
-        device = request.COOKIES['device']
-        try:
-            order = Order.objects.get(device=device,complete=False)
-        except:
-            order = Order.objects.get(profile=profile,complete=False)
-        if not order.device:
-            order.device = device
-        if not order.order_num:
-            order.order_num = generate_order_id()
-        order.save()
-    except:
-        order = None
-    # print(order.order_num,order)
     category = Category.objects.all()
-    subcate = subcategory.objects.all()
-
-
-    user_order_list = Order.objects.filter(profile=profile, complete=True)
+    user_order_list = Order.objects.filter(profile=request.user.profile, complete=True)
 
     deliver = Delivery.objects.all()
     context = {
-    'Category':category,
-    'sub':subcate,
-    'new_profile':profile,
+        'Category': category,
+        'new_profile': request.user.profile,
 
-    'user_order_list': user_order_list,
-    'deliver':deliver
+        'user_order_list': user_order_list,
+        'deliver': deliver
     }
     return render(request, 'userorder.html',context)
 

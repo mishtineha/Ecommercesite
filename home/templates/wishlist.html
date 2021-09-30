@@ -18,7 +18,9 @@
         <tbody>
           {% for item in wish %}
           <tr>
-            <td style="width: max-content;" ><a class="ps-product__preview" href="{% url 'home:product' item.wished_item.slug %}"><img class="mr-15 ps-shoe__variant" style="height:150px;" src="{{ item.wished_item.productimages.first.image1.url }}" alt="{{ item.wished_item.ProductName }}"> {{ item.wished_item.ProductName }}</a></td>
+            <td style="width: max-content;" >
+              <a class="ps-product__preview" href="{% url 'home:product' item.wished_item.slug %}">
+                <img class="mr-15 ps-shoe__variant" style="height:150px;" src="{{ item.wished_item.productimages.first.image.url }}" alt="{{ item.wished_item.ProductName }}"> {{ item.wished_item.ProductName }}</a></td>
             <td>  {% if item.wished_item.discount_percent == 0 %}
               ₹{{item.wished_item.price}}
               {% else %}
